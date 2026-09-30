@@ -1,0 +1,823 @@
+<title>Voto 2026 SP</title>
+<!--B-FONTS-->
+<style>
+/* Layout: barra de cargos fixa no topo; cada cargo abre com o quadro da disputa (pesquisa + cartões), depois gráficos e planos. Dígitos de urna como assinatura visual. */
+:root{
+  --bg:#f3f5f7; --surface:#ffffff; --surface2:#eef1f4; --ink:#0f141a; --ink2:#48515d; --muted:#7a8390; --line:#dde2e8; --line2:#c9d0d8;
+  --accent:#0d5c6b; --accent-ink:#ffffff; --accent-soft:#d9ecef;
+  --key-bg:#1b1f25; --key-fg:#f4f6f8; --key-line:#343a43;
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100;
+  --good:#0ca30c; --warn:#fab219; --serious:#ec835a; --crit:#d03b3b; --good-ink:#006300;
+  --q1:#cde2fb; --q2:#9ec5f4; --q3:#6da7ec; --q4:#3987e5; --q5:#256abf; --q6:#184f95; --q7:#0d366b; --qt1:#0f141a; --qt2:#0f141a; --qt3:#0f141a; --qt4:#ffffff; --qt5:#ffffff; --qt6:#ffffff; --qt7:#ffffff;
+  --shadow:0 1px 2px rgba(15,20,26,.06),0 4px 14px rgba(15,20,26,.05);
+  --f-ui:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif; --f-num:"JetBrains Mono",ui-monospace,"Cascadia Mono",Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0e1216; --surface:#161b21; --surface2:#1d242c; --ink:#f1f4f7; --ink2:#bcc4ce; --muted:#8a94a1; --line:#29313a; --line2:#3a444f;
+  --accent:#5cc0cf; --accent-ink:#06262c; --accent-soft:#12343a; --key-bg:#e6eaee; --key-fg:#12161b; --key-line:#c3cad2;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --good-ink:#0ca30c;
+  --q1:#16273b; --q2:#184f95; --q3:#1c5cab; --q4:#256abf; --q5:#3987e5; --q6:#6da7ec; --q7:#b7d3f6; --qt1:#f1f4f7; --qt2:#f1f4f7; --qt3:#f1f4f7; --qt4:#f1f4f7; --qt5:#f1f4f7; --qt6:#0b1a2e; --qt7:#0b1a2e;
+  --shadow:0 1px 2px rgba(0,0,0,.4); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e1216; --surface:#161b21; --surface2:#1d242c; --ink:#f1f4f7; --ink2:#bcc4ce; --muted:#8a94a1; --line:#29313a; --line2:#3a444f;
+  --accent:#5cc0cf; --accent-ink:#06262c; --accent-soft:#12343a; --key-bg:#e6eaee; --key-fg:#12161b; --key-line:#c3cad2;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --good-ink:#0ca30c;
+  --q1:#16273b; --q2:#184f95; --q3:#1c5cab; --q4:#256abf; --q5:#3987e5; --q6:#6da7ec; --q7:#b7d3f6; --qt1:#f1f4f7; --qt2:#f1f4f7; --qt3:#f1f4f7; --qt4:#f1f4f7; --qt5:#f1f4f7; --qt6:#0b1a2e; --qt7:#0b1a2e;
+  --shadow:0 1px 2px rgba(0,0,0,.4); color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-ui);font-size:15px;line-height:1.5;margin:0;font-variation-settings:"wdth" 100}
+button,input,select{font:inherit;color:inherit}
+a{color:var(--accent)}
+.wrap{max-width:1240px;margin:0 auto;padding-inline:16px;padding-block:0 64px}
+h1,h2,h3{font-family:var(--f-ui);text-wrap:balance;margin:0;line-height:1.15}
+h1{font-size:clamp(1.5rem,3.4vw,2.2rem);font-weight:800;font-variation-settings:"wdth" 78;letter-spacing:-.01em}
+h2{font-size:1.35rem;font-weight:750;font-variation-settings:"wdth" 82}
+h3{font-size:1rem;font-weight:700}
+.eyebrow{font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.muted{color:var(--muted)} .ink2{color:var(--ink2)} .small{font-size:.84rem} .tiny{font-size:.76rem}
+.num{font-variant-numeric:tabular-nums}
+
+/* topo */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+.top-in{max-width:1240px;margin:0 auto;padding-inline:16px;padding-block:12px 0;display:flex;flex-direction:column;gap:10px}
+.brand{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.brand .sub{font-size:.85rem;color:var(--ink2)}
+.count{display:flex;align-items:center;gap:8px;font-size:.84rem;color:var(--ink2)}
+.count b{font-family:var(--f-num);font-size:1.05rem;color:var(--ink)}
+.tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;margin-inline:-4px}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:none;border:0;background:none;padding:9px 12px 11px;cursor:pointer;color:var(--ink2);font-weight:600;font-size:.9rem;border-bottom:3px solid transparent;white-space:nowrap}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.tab .badge{display:inline-block;min-width:18px;padding:0 5px;margin-left:4px;border-radius:9px;background:var(--accent);color:var(--accent-ink);font-size:.72rem;line-height:18px;text-align:center}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+section.view{display:flex;flex-direction:column;gap:22px;padding-top:22px}
+.head{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:flex-end}
+.head p{margin:.35rem 0 0;max-width:70ch;color:var(--ink2)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px;box-shadow:var(--shadow);min-width:0}
+.panel > h3{margin-bottom:4px}
+.panel .note{font-size:.78rem;color:var(--muted);margin-top:10px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr));gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px}
+
+/* dígitos de urna */
+.urna{display:inline-flex;gap:3px;vertical-align:middle}
+.urna i{font-style:normal;font-family:var(--f-num);font-weight:700;background:var(--key-bg);color:var(--key-fg);border-radius:4px;min-width:1.35em;height:1.7em;display:inline-grid;place-items:center;font-size:.92rem;box-shadow:inset 0 -2px 0 var(--key-line)}
+.urna.sm i{font-size:.74rem;border-radius:3px}
+.urna.lg i{font-size:1.25rem;min-width:1.4em;height:1.75em}
+
+/* status */
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:.76rem;font-weight:600;padding:2px 9px 2px 7px;border-radius:999px;border:1px solid var(--line2);background:var(--surface);color:var(--ink2);white-space:nowrap}
+.pill svg{width:12px;height:12px;flex:none}
+.pill.ok svg{color:var(--good)} .pill.warn svg{color:var(--warn)} .pill.bad svg{color:var(--crit)}
+.chip{display:inline-block;font-size:.74rem;padding:1px 8px;border-radius:5px;background:var(--surface2);color:var(--ink2);white-space:nowrap}
+.chip.acc{background:var(--accent-soft);color:var(--ink)}
+
+/* cartões */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,272px),1fr));gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow);min-width:0}
+.card.out{opacity:.72}
+.card-top{display:flex;gap:12px;align-items:flex-start}
+.ph{width:64px;height:auto;border-radius:6px;background:var(--surface2);flex:none;align-self:flex-start;display:block}
+.ph-empty{width:64px;aspect-ratio:3/4;border-radius:6px;background:var(--surface2);display:grid;place-items:center;font-weight:700;color:var(--muted);flex:none}
+.card h3{font-size:1.02rem;font-variation-settings:"wdth" 86}
+.card .party{font-size:.8rem;color:var(--ink2)}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:3px 10px;font-size:.82rem;margin:0}
+.kv dt{color:var(--muted)} .kv dd{margin:0;min-width:0;overflow-wrap:anywhere}
+.card-actions{display:flex;gap:8px;margin-top:auto;flex-wrap:wrap}
+.btn{border:1px solid var(--line2);background:var(--surface);border-radius:7px;padding:6px 11px;font-size:.84rem;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{border-color:var(--accent)}
+.btn.pri{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn svg{width:15px;height:15px}
+
+/* gráficos */
+.chart{width:100%;overflow-x:auto}
+.chart svg{display:block;max-width:100%;height:auto}
+.chart text{fill:var(--ink2);font-family:var(--f-ui);font-size:13px}
+.chart .lbl{fill:var(--ink);font-weight:600}
+.chart .val{fill:var(--ink);font-variant-numeric:tabular-nums}
+.chart .ax{stroke:var(--line2)} .chart .grid{stroke:var(--line)}
+.legend{display:flex;gap:6px 16px;flex-wrap:wrap;font-size:.8rem;color:var(--ink2);margin-top:8px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:14px;height:4px;border-radius:2px;display:inline-block}
+.legend i.dot{width:9px;height:9px;border-radius:50%}
+#tip{position:fixed;z-index:50;pointer-events:none;background:var(--ink);color:var(--bg);font-size:.8rem;padding:6px 9px;border-radius:6px;max-width:280px;line-height:1.35;opacity:0;transition:opacity .08s}
+#tip.on{opacity:1}
+
+/* heatmap */
+.heat{border-collapse:separate;border-spacing:2px;font-size:.78rem;min-width:720px}
+.heat th{font-weight:600;color:var(--ink2);text-align:left;padding:2px 6px;white-space:nowrap}
+.heat thead th{writing-mode:vertical-rl;transform:rotate(180deg);height:128px;vertical-align:bottom;font-weight:600}
+.heat td{text-align:center;padding:5px 2px;border-radius:3px;font-variant-numeric:tabular-nums;min-width:34px;cursor:default}
+.heat td.hi{outline:2px solid var(--ink)}
+
+/* tabela */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table.tbl{border-collapse:collapse;width:100%;font-size:.84rem}
+.tbl th{position:sticky;top:0;background:var(--surface2);text-align:left;font-weight:600;color:var(--ink2);padding:8px 10px;white-space:nowrap;border-bottom:1px solid var(--line)}
+.tbl th button{border:0;background:none;padding:0;font-weight:600;cursor:pointer;color:inherit}
+.tbl td{padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+.tbl tr:hover td{background:var(--surface2)}
+.tbl td.r,.tbl th.r{text-align:right}
+.tbl .who{display:flex;align-items:center;gap:10px;min-width:220px}
+.tbl .who img{width:34px;height:auto;border-radius:4px;flex:none;align-self:flex-start}
+.tbl .who .ph-empty{width:34px;font-size:.7rem}
+.linkish{border:0;background:none;padding:0;font-weight:650;cursor:pointer;text-align:left;color:var(--ink)}
+.linkish:hover{color:var(--accent);text-decoration:underline}
+
+.filters{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end}
+.field{display:flex;flex-direction:column;gap:3px;font-size:.76rem;color:var(--muted);font-weight:600;min-width:0}
+.field input,.field select{border:1px solid var(--line2);background:var(--surface);border-radius:7px;padding:7px 9px;font-size:.88rem;font-weight:500;min-width:0;max-width:100%}
+.field input[type=search]{width:min(320px,80vw)}
+.check{display:inline-flex;align-items:center;gap:6px;font-size:.84rem;color:var(--ink2);font-weight:500}
+.pager{display:flex;gap:8px;align-items:center;justify-content:flex-end;padding:10px 0;font-size:.84rem;color:var(--ink2)}
+
+/* drawer */
+.scrim{position:fixed;inset:0;background:rgba(8,12,16,.45);z-index:40}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(760px,100%);background:var(--bg);z-index:41;overflow-y:auto;box-shadow:-8px 0 30px rgba(0,0,0,.2);padding-bottom:env(safe-area-inset-bottom,0px)}
+.drawer-in{padding:18px 16px 40px;display:flex;flex-direction:column;gap:16px;padding-top:calc(18px + env(safe-area-inset-top,0px))}
+.dh{display:flex;gap:16px;align-items:flex-start}
+.dh .ph{width:104px}
+.dh .ph-empty{width:104px}
+.close{position:sticky;top:0;float:right}
+.bars{display:flex;height:14px;border-radius:4px;overflow:hidden;gap:2px;background:var(--surface2)}
+.bars span{display:block;height:100%}
+.qlist{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+.qlist li{border-left:3px solid var(--line2);padding:2px 0 2px 10px;font-size:.88rem;color:var(--ink2)}
+.qlist mark{background:var(--accent-soft);color:var(--ink);border-radius:2px;padding:0 1px}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{border:1px solid var(--line2);background:var(--surface);border-radius:999px;padding:4px 10px;font-size:.8rem;cursor:pointer;color:var(--ink2)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+/* comparar */
+.cmp{display:grid;gap:12px}
+.cmp-row{display:grid;grid-template-columns:150px repeat(var(--n),minmax(0,1fr));gap:12px;align-items:start;padding:8px 0;border-bottom:1px solid var(--line);font-size:.86rem}
+.cmp-row > div:first-child{color:var(--muted);font-weight:600;font-size:.8rem}
+.cmp-head{display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+.cmp-head .ph{width:56px}
+.swatch{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:baseline}
+@media (max-width:640px){.cmp-row{grid-template-columns:repeat(var(--n),minmax(0,1fr))}.cmp-row > div:first-child{grid-column:1/-1}}
+
+/* cola */
+.cola{display:grid;gap:10px}
+.cola-row{display:grid;grid-template-columns:minmax(0,190px) minmax(0,1fr) auto;gap:14px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.cola-row .ord{font-family:var(--f-num);font-size:.78rem;color:var(--muted)}
+@media (max-width:560px){.cola-row{grid-template-columns:1fr}}
+.empty{padding:28px;text-align:center;color:var(--muted);border:1px dashed var(--line2);border-radius:10px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:9px 14px;border-radius:8px;font-size:.86rem;z-index:60}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.kpi b{display:block;font-size:1.5rem;font-weight:750;font-variation-settings:"wdth" 80}
+.kpi span{font-size:.8rem;color:var(--ink2)}
+.prose{max-width:75ch;color:var(--ink2)}
+.prose h3{color:var(--ink);margin:18px 0 6px}
+.prose li{margin:4px 0}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<header class="top">
+  <div class="top-in">
+    <div class="brand">
+      <div>
+        <div class="eyebrow">Eleições gerais · 1º turno em 4 de outubro de 2026</div>
+        <h1>Voto 2026 · São Paulo</h1>
+      </div>
+      <div class="count" id="countdown"></div>
+    </div>
+    <nav class="tabs" role="tablist" id="tabs"></nav>
+  </div>
+</header>
+<main class="wrap" id="main"></main>
+<div id="tip" role="tooltip"></div>
+
+<!--B-DATA-->
+<script>
+"use strict";
+/* ============ ativos (fotos, PDFs) ============ */
+const MODE = window.__MODE || "artifact";
+const ASSETS = (function(){ try{ const el=document.getElementById("b-loader"); return el?JSON.parse(el.textContent):{}; }catch(e){ return {}; } })();
+const URLS = {};
+function b64Blob(b64, mime){ const bin=atob(b64); const u=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) u[i]=bin.charCodeAt(i); return new Blob([u],{type:mime}); }
+function assetURL(id){
+  if(URLS[id]) return URLS[id];
+  const e=ASSETS[id]; if(!e) return null;
+  URLS[id] = MODE==="local" ? URL.createObjectURL(b64Blob(e[1],e[0])) : "data:"+e[0]+";base64,"+e[1];
+  return URLS[id];
+}
+function hydrate(root){ (root||document).querySelectorAll("img[data-bsrc]").forEach(im=>{ const u=assetURL(im.dataset.bsrc); if(u && im.getAttribute("src")!==u){ im.src=u; im.hidden=false; const fb=im.nextElementSibling; if(fb&&fb.classList.contains("ph-empty")) fb.remove(); } }); }
+/* fotos de deputados no artifact: carregadas sob demanda */
+let depPhotosState = MODE==="local" ? "done" : "idle";
+function loadDepPhotos(){
+  if(depPhotosState!=="idle") return; depPhotosState="loading";
+  const parts=(window.__FOTO_PARTS||[]);
+  Promise.all(parts.map(p=>fetch(p).then(r=>r.ok?r.json():{}).catch(()=>({}))))
+    .then(list=>{ list.forEach(m=>Object.assign(ASSETS,m)); depPhotosState="done"; hydrate(document); });
+}
+async function planBlob(file){
+  if(MODE==="local"){ const el=document.getElementById("pdf-"+file.replace(/\W/g,"_")); return el? b64Blob(el.textContent.trim(),"application/pdf") : null; }
+  const r = await fetch("planos/"+file); if(!r.ok) throw new Error("http "+r.status); return await r.blob();
+}
+
+/* ============ dados ============ */
+const C = window.TSE || [], PL = window.PLANOS || {}, PT = window.PTXT || {}, TEMAS = window.TEMAS || [];
+const LEG = window.LEG || {}, EXEC = window.EXEC || {}, BAL = window.BAL || {};
+const LEGMAIN = ["PL","PLP","PEC","PDL","MPV","PLV","PLC","PR"];
+const TNAME = {PL:"Projetos de lei",PLP:"Projetos de lei complementar",PLC:"Projetos de lei complementar",PEC:"Propostas de emenda constitucional",PDL:"Projetos de decreto legislativo",PR:"Projetos de resolução",MPV:"Medidas provisórias",PLV:"Projetos de lei de conversão",REQ:"Requerimentos",IND:"Indicações",MOC:"Moções"};
+function legTot(sq){
+  const t={pp:0,pc:0,lp:0,lc:0,ls:0,ap:0,req:0,ind:0,casas:[]};
+  (LEG[sq]||[]).forEach(b=>{ const c=b.cnt||{}; t.casas.push(b.casa);
+    LEGMAIN.forEach(k=>{ t.pp+=c[k+":p"]||0; t.pc+=c[k+":c"]||0; });
+    t.lp+=c["lei:p"]||0; t.lc+=c["lei:c"]||0; t.ls+=c["leiS:p"]||0; t.ap+=c["aprov:p"]||0; t.req+=c["REQ:p"]||0; t.ind+=(c["IND:p"]||0)+(c["MOC:p"]||0); });
+  return t;
+}
+function propURL(i){ return i.sen ? "https://www25.senado.leg.br/web/atividade/materias/-/materia/"+i.id : i.al ? "https://www.al.sp.gov.br/propositura/?id="+i.id : "https://www.camara.leg.br/proposicoesWeb/fichadetramitacao?idProposicao="+i.id; }
+function propItem(i){
+  const law=/Norma Jur/i.test(i.s||""), ok=/^Aprovad|Aguardando Aprecia|Remetida ao Senado|Aguardando Sanç/i.test(i.s||""), veto=/^Vetad/i.test(i.s||"");
+  return '<li><a href="'+propURL(i)+'" target="_blank" rel="noopener"><b>'+esc(i.t+" "+i.n+"/"+i.a)+'</b></a> <span class="muted small">'+esc((i.d||"").slice(0,4))+(i.pr?" · autor principal":" · coautor")+'</span><br>'+esc(i.e)+
+    (i.simb?' <span class="chip">simbólica</span>':'')+'<br><span class="pill '+(law?"ok":ok?"warn":veto?"bad":"")+'" style="margin-top:4px">'+(law?ICON.ok:ok?ICON.warn:veto?ICON.bad:"")+esc(i.s||"—")+"</span></li>";
+}
+function legPanel(c){
+  const L=LEG[c.sq]||[], E=EXEC[c.sq], B=BAL[c.sq];
+  let h='<div class="panel" id="leg-sec"><h3>Atuação no poder público</h3>';
+  if(!L.length && !E && !B){
+    const hadMand=(c.hist||[]).some(isElected);
+    return h+'<p class="ink2" style="margin:6px 0 0">'+(hadMand?"Este candidato já exerceu mandato, mas fora das bases cruzadas aqui (Câmara dos Deputados desde 2003, Senado, Alesp e proposições do Executivo federal e paulista). Mandatos municipais e de outros estados não estão cobertos.":"Nenhum mandato legislativo ou executivo encontrado nas bases da Câmara, do Senado e da Alesp.")+"</p></div>";
+  }
+  L.forEach(b=>{
+    const k=b.cnt||{}; const main=LEGMAIN.filter(t=>(k[t+":p"]||0)+(k[t+":c"]||0));
+    const pp=main.reduce((s,t)=>s+(k[t+":p"]||0),0), pc=main.reduce((s,t)=>s+(k[t+":c"]||0),0);
+    h+='<div style="margin-top:14px"><div class="eyebrow">'+esc(b.casa)+(b.de?" · proposições de "+esc(b.de)+" a "+esc(b.ate):"")+'</div>'+
+      '<div class="kpis" style="margin-top:8px"><div class="kpi"><b class="num">'+nf(pp)+'</b><span>proposições de lei como autor principal</span></div><div class="kpi"><b class="num">'+nf(k["lei:p"]||0)+'</b><span>viraram lei (autor principal): '+nf((k["lei:p"]||0)-(k["leiS:p"]||0))+' de conteúdo, '+nf(k["leiS:p"]||0)+' simbólicas</span></div><div class="kpi"><b class="num">'+nf(k["lei:c"]||0)+'</b><span>viraram lei como coautor</span></div>'+
+      (k["aprov:p"]?'<div class="kpi"><b class="num">'+nf(k["aprov:p"])+'</b><span>'+(b.casa.startsWith("Assembleia")?"aprovadas pela Alesp, sem lei registrada":"aprovadas na Câmara, aguardando Senado ou sanção")+'</span></div>':"")+
+      (k["veto:p"]?'<div class="kpi"><b class="num">'+nf(k["veto:p"])+'</b><span>vetadas pelo governador</span></div>':"")+'</div>'+
+      (main.length?hbar(main.map(t=>({l:TNAME[t]||t,v:(k[t+":p"]||0),tip:(TNAME[t]||t)+": "+(k[t+":p"]||0)+" como autor principal, "+(k[t+":c"]||0)+" como coautor"})),{labelW:230,rowH:22,aria:"Proposições por tipo",fmt:v=>nf(v)+" autor"}):"")+
+      '<p class="small ink2" style="margin:6px 0">Além disso: '+nf(pc)+' proposições como coautor'+(k["REQ:p"]?", "+nf(k["REQ:p"])+" requerimentos":"")+(k["IND:p"]?", "+nf(k["IND:p"])+" indicações":"")+(k["MOC:p"]?", "+nf(k["MOC:p"])+" moções":"")+'. <a href="'+esc(b.link)+'" target="_blank" rel="noopener">Página oficial</a></p>'+
+      (b.laws&&b.laws.length?'<details open><summary class="small"><b>Proposições que viraram lei</b> <span class="muted">('+b.laws.length+(b.laws.length>=30?" mais recentes":"")+')</span></summary><ul class="qlist" style="margin-top:8px">'+b.laws.map(propItem).join("")+"</ul></details>":'<p class="small muted">Nenhuma proposição de autoria virou lei no período coberto.</p>')+
+      (b.recent&&b.recent.length?'<details style="margin-top:8px"><summary class="small"><b>Proposições mais recentes como autor principal</b></summary><ul class="qlist" style="margin-top:8px">'+b.recent.map(propItem).join("")+"</ul></details>":"")+"</div>";
+  });
+  if(E) E.forEach(b=>{ const k=b.cnt||{};
+    h+='<div style="margin-top:14px"><div class="eyebrow">Proposições enviadas pelo Executivo · '+esc(b.label)+'</div>'+
+      '<div class="kpis" style="margin-top:8px"><div class="kpi"><b class="num">'+nf(b.n)+'</b><span>proposições enviadas ao Legislativo</span></div><div class="kpi"><b class="num">'+nf(k.lei||0)+'</b><span>viraram lei</span></div>'+(k.MPV?'<div class="kpi"><b class="num">'+nf(k.MPV)+'</b><span>medidas provisórias ('+nf(k.lei_MPV||0)+' convertidas em lei)</span></div>':"")+'</div>'+
+      '<p class="small muted" style="margin:6px 0">Fonte: '+esc(b.fonte)+'. Mede a agenda legislativa do governo, não obras nem resultados.</p>'+
+      (b.laws.length?'<details><summary class="small"><b>Leis originadas dessas proposições</b> <span class="muted">('+b.laws.length+(b.laws.length>=40?" mais recentes":"")+')</span></summary><ul class="qlist" style="margin-top:8px">'+b.laws.map(i=>propItem(Object.assign({pr:1},i)).replace(" · autor principal","")).join("")+"</ul></details>":"")+"</div>"; });
+  if(B && B.q.length) h+='<div style="margin-top:14px"><div class="eyebrow">Balanço de gestão declarado no próprio plano de governo</div><p class="small muted" style="margin:4px 0 8px">Frases em que o candidato descreve o que diz ter feito. São afirmações do próprio candidato, sem verificação independente.</p><details><summary class="small"><b>Ver '+B.q.length+' trechos</b></summary><ul class="qlist" style="margin-top:8px">'+B.q.map(s=>"<li>“"+esc(s)+"”</li>").join("")+"</ul></details></div>";
+  return h+'<p class="note">Autoria principal = primeiro signatário. Câmara coberta desde 2003; Senado pela base de matérias; Alesp pela base de proposituras e tramitação. “Virou lei” segue o registro oficial de cada casa.</p></div>';
+}
+const BY = {}; C.forEach(c=>BY[c.sq]=c);
+const TSHORT = {eco:"Economia",fis:"Contas públicas",sau:"Saúde",edu:"Educação",seg:"Segurança",amb:"Meio ambiente",inf:"Infraestrutura",soc:"Pobreza",mor:"Moradia",tra:"Trabalho",agr:"Agro",est:"Gestão/Estado",dir:"Direitos",tec:"Tecnologia",fam:"Família/valores",ext:"Soberania/externo"};
+const CARGOS = [
+  {id:"pres", cargo:"PRESIDENTE", uf:"BR", nome:"Presidente", curto:"Presidente", digits:2, plano:true, vice:["VICE-PRESIDENTE"],
+   desc:"Um voto. Se ninguém tiver mais da metade dos votos válidos, os dois mais votados vão ao 2º turno em 25 de outubro."},
+  {id:"gov", cargo:"GOVERNADOR", uf:"SP", nome:"Governador de São Paulo", curto:"Governador", digits:2, plano:true, vice:["VICE-GOVERNADOR"],
+   desc:"Um voto. Vale a mesma regra de 2º turno da Presidência."},
+  {id:"sen", cargo:"SENADOR", uf:"SP", nome:"Senado por São Paulo", curto:"Senado", digits:3, plano:false, vice:["1º SUPLENTE","2º SUPLENTE"],
+   desc:"Em 2026 São Paulo elege 2 senadores (renovação de 2/3 do Senado). Você vota em dois candidatos diferentes, um em cada tela da urna. Os dois mais votados levam, sem 2º turno."},
+  {id:"depf", cargo:"DEPUTADO FEDERAL", uf:"SP", nome:"Deputado federal por SP", curto:"Dep. federal", digits:4, plano:false,
+   desc:"São Paulo tem 70 cadeiras na Câmara. Eleição proporcional: seu voto conta primeiro para o partido ou federação e depois para ordenar os eleitos dentro dele."},
+  {id:"depe", cargo:"DEPUTADO ESTADUAL", uf:"SP", nome:"Deputado estadual por SP", curto:"Dep. estadual", digits:5, plano:false,
+   desc:"A Assembleia Legislativa de SP tem 94 cadeiras. Também proporcional: o voto soma para o partido ou federação."},
+];
+const CG = {}; CARGOS.forEach(g=>CG[g.id]=g);
+function cands(g){ return C.filter(c=>c.cargo===g.cargo && c.uf===g.uf); }
+function vicesOf(c){
+  const g=CARGOS.find(x=>x.cargo===c.cargo); if(!g||!g.vice) return [];
+  const v=C.filter(x=>g.vice.includes(x.cargo) && x.uf===c.uf && String(x.nr)===String(c.nr));
+  const inUrna=v.filter(x=>x.urnaSim); const list=(inUrna.length?inUrna:v);
+  return g.vice.map(cg=>list.find(x=>x.cargo===cg)).filter(Boolean);
+}
+
+/* pesquisas (fonte e registro citados na tela) */
+const POLLS = {
+  pres:{inst:"Datafolha", campo:"22 e 23/09/2026", n:"2.002 entrevistas", me:"±2 p.p.", reg:"BR-00304/2026",
+    url:"https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/datafolha-presidente-setembro-2026-4/",
+    rows:[["LULA",40],["FLAVIO BOLSONARO",36],["ESCRITOR AUGUSTO CURY",5],["RONALDO CAIADO",4],["RENAN SANTOS",3],["ZEMA",1],["SAMARA",1],["LEONARDO AVALANCHE",0],["CLARIANA BARAO",0],["EDMILSON COSTA",0],["HERTZ DIAS",0],["RUI COSTA PIMENTA",0],["VETERINÁRIO WILSON GRASSI",0]],
+    extra:[["Branco, nulo ou nenhum",5],["Não sabe",2]],
+    t2:[["Lula","Flávio Bolsonaro",47,45],["Lula","Augusto Cury",46,43],["Lula","Ronaldo Caiado",46,44],["Lula","Zema",48,39],["Lula","Renan Santos",48,39]]},
+  gov:{inst:"Real Time Big Data", campo:"24 a 28/09/2026", n:"2.000 entrevistas", me:"±2 p.p.", reg:"SP-06293/2026",
+    url:"https://www.brasildefato.com.br/2026/09/29/real-time-tarcisio-lidera-para-governo-de-sp-disputa-para-o-senado-tem-empate-tecnico/",
+    rows:[["TARCÍSIO",53],["FERNANDO HADDAD",39]], extra:[["Demais candidatos (somados)",1],["Branco e nulo",4],["Não sabe / não respondeu",3]],
+    t2:[["Tarcísio","Haddad",57,40]]},
+  sen:{inst:"Real Time Big Data", campo:"24 a 28/09/2026", n:"2.000 entrevistas", me:"±2 p.p.", reg:"SP-06293/2026",
+    url:"https://www.brasildefato.com.br/2026/09/29/real-time-tarcisio-lidera-para-governo-de-sp-disputa-para-o-senado-tem-empate-tecnico/",
+    rows:[["GUILHERME DERRITE",22],["ANDRÉ DO PRADO",20],["SIMONE TEBET",18],["MARINA SILVA",15],["SALLES",6],["GERALDO RUFINO",3],["SONINHA FRANCINE",2],["GUTO SCHIAVETTO",2]],
+    extra:[["Demais candidatos (somados)",1],["Branco e nulo",6],["Não sabe / não respondeu",5]]},
+};
+
+/* ============ utilidades ============ */
+const $ = (s,r=document)=>r.querySelector(s);
+const esc = s=>String(s==null?"":s).replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+function title(s){ if(!s) return ""; return String(s).toLowerCase().replace(/(^|[\s\-\/(])([a-zà-ú])/g,(m,a,b)=>a+b.toUpperCase()).replace(/\b(De|Da|Do|Das|Dos|E)\b/g,w=>w.toLowerCase()); }
+function brl(v, full){
+  if(v==null) return "—";
+  if(full) return v.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+  const a=Math.abs(v);
+  if(a>=1e9) return "R$ "+(v/1e9).toLocaleString("pt-BR",{maximumFractionDigits:2})+" bi";
+  if(a>=1e6) return "R$ "+(v/1e6).toLocaleString("pt-BR",{maximumFractionDigits:1})+" mi";
+  if(a>=1e3) return "R$ "+Math.round(v/1e3).toLocaleString("pt-BR")+" mil";
+  return "R$ "+Math.round(v).toLocaleString("pt-BR");
+}
+const nf = v=>Number(v).toLocaleString("pt-BR");
+function urna(nr, size){ return '<span class="urna '+(size||"")+'" aria-label="Número '+esc(nr)+'">'+String(nr).split("").map(d=>"<i>"+d+"</i>").join("")+"</span>"; }
+function initials(n){ return esc(String(n).split(/\s+/).filter(Boolean).slice(0,2).map(w=>w[0]).join("")); }
+function photo(c, cls){
+  const id="f:"+c.uf+c.sq;
+  if(!c.foto) return '<div class="ph-empty">'+initials(c.urna)+'</div>';
+  const u=assetURL(id);
+  return '<img class="'+(cls||"ph")+'" data-bsrc="'+id+'" '+(u?'src="'+u+'"':'hidden')+' alt="Foto de '+esc(title(c.urna))+'" loading="lazy">'+(u?"":'<div class="ph-empty">'+initials(c.urna)+'</div>');
+}
+const ICON = {
+  ok:'<svg viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="6" fill="currentColor"/><path d="M3.3 6.2l1.8 1.8 3.6-3.8" stroke="#fff" stroke-width="1.6" fill="none"/></svg>',
+  warn:'<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 .6l5.6 10.2H.4z" fill="currentColor"/><path d="M6 4.2v3M6 8.6v.1" stroke="#111" stroke-width="1.4"/></svg>',
+  bad:'<svg viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="6" fill="currentColor"/><path d="M3.8 3.8l4.4 4.4M8.2 3.8L3.8 8.2" stroke="#fff" stroke-width="1.6"/></svg>',
+  dl:'<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0l-3.2-3.2M8 10l3.2-3.2M2.5 12.5v1h11v-1" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  cmp:'<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 2v12M11 2v12M2 5h6M8 11h6" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg>',
+};
+function status(c){
+  if(!c.urnaSim) return {k:"bad", t:"Fora da urna", d:(c.jul?title(c.jul):"")+(c.subst?" · substituído":"")};
+  const j=(c.jul||c.sit||"").toUpperCase();
+  if(/PENDENTE/.test(j)) return {k:"warn", t:"Aguardando julgamento", d:"Registro ainda não julgado pela Justiça Eleitoral"};
+  if(/INDEFERIDO/.test(j)) return {k:"warn", t:"Indeferido, com recurso", d:"Concorre sub judice: os votos só valem se o recurso for aceito"};
+  if(/ANULADO/i.test(c.dest||"")) return {k:"warn", t:"Votos anulados sub judice", d:"Situação do TSE em 30/09: "+(c.dest||"")};
+  return {k:"ok", t:"Registro deferido", d:"Candidatura aprovada pela Justiça Eleitoral"};
+}
+function pill(c){ const s=status(c); return '<span class="pill '+s.k+'" data-tip="'+esc(s.d)+'">'+ICON[s.k]+esc(s.t)+"</span>"; }
+function exp(c){ const h=c.hist||[]; return {n:h.length, e:h.filter(isElected).length}; }
+function isElected(h){ const r=(h.res||"").toLowerCase(); return /eleito|média|qp/.test(r) && !/não eleito|suplente/.test(r); }
+function party(c){ return esc(c.sg)+(c.fed?' <span class="muted">· Fed. '+esc(c.fed)+"</span>":"")+(c.colig?' <span class="muted">· '+esc(title(c.colig))+"</span>":""); }
+function store(k,v){ try{ if(v===undefined) return JSON.parse(localStorage.getItem("voto26:"+k)); localStorage.setItem("voto26:"+k,JSON.stringify(v)); }catch(e){ return null; } }
+function toast(msg){ const t=document.createElement("div"); t.className="toast"; t.textContent=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),2600); }
+
+/* ============ tooltip ============ */
+const TIP=$("#tip");
+document.addEventListener("mouseover",e=>{ const el=e.target.closest("[data-tip]"); if(!el||!el.dataset.tip){ TIP.classList.remove("on"); return; } TIP.innerHTML=el.dataset.tip; TIP.classList.add("on"); });
+document.addEventListener("mousemove",e=>{ if(!TIP.classList.contains("on")) return; const w=TIP.offsetWidth,h=TIP.offsetHeight; let x=e.clientX+14,y=e.clientY+14; if(x+w>innerWidth-8) x=e.clientX-w-14; if(y+h>innerHeight-8) y=e.clientY-h-14; TIP.style.left=x+"px"; TIP.style.top=y+"px"; });
+document.addEventListener("focusin",e=>{ const el=e.target.closest("[data-tip]"); if(el){ const r=el.getBoundingClientRect(); TIP.innerHTML=el.dataset.tip; TIP.style.left=r.left+"px"; TIP.style.top=(r.bottom+6)+"px"; TIP.classList.add("on"); } });
+document.addEventListener("focusout",()=>TIP.classList.remove("on"));
+
+/* ============ gráficos SVG ============ */
+const SER=["var(--s1)","var(--s2)","var(--s3)","var(--s4)"];
+const DASH=["","6 3","2 3","9 3 2 3"];
+function hbar(items, o){
+  o=o||{}; const W=o.w||Math.max(360,Math.min(640,innerWidth-64)), rowH=o.rowH||26, lw=o.labelW||180, vw=o.valW||78, pad=6;
+  const H=items.length*rowH+pad*2; const max=o.max||Math.max(...items.map(i=>i.v),1);
+  const sx=v=> o.log ? (v<=0?0:(Math.log10(v)-Math.log10(o.logMin))/(Math.log10(max)-Math.log10(o.logMin))*(W-lw-vw)) : v/max*(W-lw-vw);
+  let s='<svg width="'+W+'" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+esc(o.aria||"")+'">';
+  items.forEach((it,i)=>{
+    const y=pad+i*rowH, bw=Math.max(it.v>0?2:0,sx(Math.max(it.v,o.log?o.logMin:0)));
+    s+='<g data-tip="'+esc(it.tip||(it.l+": "+(o.fmt?o.fmt(it.v):it.v)))+'">';
+    s+='<rect x="0" y="'+y+'" width="'+W+'" height="'+rowH+'" fill="transparent"/>';
+    s+='<text x="'+(lw-8)+'" y="'+(y+rowH/2+4)+'" text-anchor="end" class="'+(it.strong?"lbl":"")+'">'+esc(it.l)+'</text>';
+    s+='<rect x="'+lw+'" y="'+(y+5)+'" width="'+bw+'" height="'+(rowH-10)+'" rx="3" fill="'+(it.c||"var(--s1)")+'"'+(it.muted?' opacity=".45"':'')+'/>';
+    s+='<text x="'+(lw+bw+6)+'" y="'+(y+rowH/2+4)+'" class="val">'+esc(it.txt!=null?it.txt:(o.fmt?o.fmt(it.v):it.v))+'</text></g>';
+  });
+  return '<div class="chart">'+s+"</svg></div>";
+}
+function radar(series, keys, o){
+  o=o||{}; const S=o.size||420, cx=S/2, cy=S/2, R=S/2-96, n=keys.length;
+  const max=o.max||Math.max(1,...series.flatMap(sr=>keys.map(k=>sr.v[k]||0)));
+  const pt=(i,v)=>{ const a=-Math.PI/2+i*2*Math.PI/n, r=R*Math.min(v,max)/max; return [cx+r*Math.cos(a), cy+r*Math.sin(a)]; };
+  let s='<svg width="'+S+'" viewBox="0 0 '+S+' '+S+'" role="img" aria-label="Radar de temas">';
+  [.25,.5,.75,1].forEach(f=>{ s+='<polygon class="grid" fill="none" points="'+keys.map((k,i)=>pt(i,max*f).join(",")).join(" ")+'"/>'; });
+  keys.forEach((k,i)=>{ const [x,y]=pt(i,max); const [lx,ly]=pt(i,max*1.16); s+='<line class="grid" x1="'+cx+'" y1="'+cy+'" x2="'+x+'" y2="'+y+'"/>';
+    s+='<text x="'+lx+'" y="'+(ly+4)+'" text-anchor="'+(Math.abs(lx-cx)<8?"middle":lx>cx?"start":"end")+'" font-size="11">'+esc(TSHORT[k]||k)+'</text>'; });
+  series.forEach((sr,j)=>{
+    const pts=keys.map((k,i)=>pt(i,sr.v[k]||0).join(",")).join(" ");
+    s+='<polygon points="'+pts+'" fill="'+SER[j]+'" fill-opacity=".10" stroke="'+SER[j]+'" stroke-width="2" stroke-dasharray="'+DASH[j]+'"/>';
+    keys.forEach((k,i)=>{ const [x,y]=pt(i,sr.v[k]||0); s+='<circle cx="'+x+'" cy="'+y+'" r="4" fill="'+SER[j]+'" stroke="var(--surface)" stroke-width="2" data-tip="'+esc(sr.name+" · "+(TSHORT[k]||k)+": "+nf(sr.v[k]||0)+" menções por 10 mil palavras")+'"/>'; });
+  });
+  s+='<text x="'+(cx+5)+'" y="'+(cy-R+14)+'" font-size="10" fill="var(--muted)">'+nf(Math.round(max))+'</text>';
+  return '<div class="chart" style="max-width:'+S+'px;margin-inline:auto">'+s+"</svg></div>";
+}
+function lineChart(series, o){
+  o=o||{}; const W=Math.max(360,Math.min(640,innerWidth-64)),H=260,l=84,r=16,t=14,b=30;
+  const xs=series.flatMap(s=>s.pts.map(p=>p[0])), ys=series.flatMap(s=>s.pts.map(p=>p[1]));
+  if(!xs.length) return '<p class="muted small">Sem declarações de bens anteriores na base do TSE.</p>';
+  const x0=Math.min(...xs,2026)-1, x1=2026, y1=Math.max(...ys,1)*1.08;
+  const X=x=>l+(x-x0)/(x1-x0)*(W-l-r), Y=y=>t+(1-y/y1)*(H-t-b);
+  let s='<svg width="'+W+'" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Evolução do patrimônio declarado">';
+  for(let i=0;i<=4;i++){ const v=y1*i/4, y=Y(v); s+='<line class="grid" x1="'+l+'" x2="'+(W-r)+'" y1="'+y+'" y2="'+y+'"/><text x="'+(l-6)+'" y="'+(y+4)+'" text-anchor="end" font-size="11">'+brl(v)+'</text>'; }
+  const stp=W<520?4:2; for(let yr=Math.ceil(x0/stp)*stp; yr<=x1; yr+=stp){ s+='<text x="'+X(yr)+'" y="'+(H-10)+'" text-anchor="middle" font-size="11">'+yr+'</text>'; }
+  s+='<line class="ax" x1="'+l+'" x2="'+(W-r)+'" y1="'+Y(0)+'" y2="'+Y(0)+'"/>';
+  series.forEach((sr,j)=>{
+    const p=sr.pts.slice().sort((a,b)=>a[0]-b[0]); const col=sr.c||SER[j];
+    s+='<polyline fill="none" stroke="'+col+'" stroke-width="2" stroke-dasharray="'+(DASH[j]||"")+'" points="'+p.map(q=>X(q[0])+","+Y(q[1])).join(" ")+'"/>';
+    p.forEach((q,i)=>{ s+='<circle cx="'+X(q[0])+'" cy="'+Y(q[1])+'" r="'+(i===p.length-1?5:4)+'" fill="'+col+'" stroke="var(--surface)" stroke-width="2" data-tip="'+esc(sr.name+" · "+q[0]+": "+brl(q[1],true))+'"/>'; });
+  });
+  return '<div class="chart">'+s+"</svg></div>";
+}
+function heatColor(v,max){ if(!v) return ["var(--surface2)","var(--muted)"]; const q=Math.min(6,Math.floor(v/max*7)); return ["var(--q"+(q+1)+")","var(--qt"+(q+1)+")"]; }
+
+/* ============ navegação ============ */
+const TABS=[...CARGOS.map(g=>({id:g.id,l:g.curto})),{id:"planos",l:"Planos lado a lado"},{id:"comp",l:"Comparar"},{id:"cola",l:"Minha cola"},{id:"sobre",l:"Sobre os dados"}];
+let state={ tab:(location.hash||"").replace("#","")||store("tab")||"pres", cmp:store("cmp")||[], cola:store("cola")||{}, dep:{} };
+if(!TABS.find(t=>t.id===state.tab)) state.tab="pres";
+state.cmp=state.cmp.filter(sq=>BY[sq]);
+function renderTabs(){
+  $("#tabs").innerHTML=TABS.map(t=>'<button class="tab" role="tab" id="t-'+t.id+'" aria-selected="'+(t.id===state.tab)+'" data-tab="'+t.id+'">'+esc(t.l)+(t.id==="comp"&&state.cmp.length?'<span class="badge">'+state.cmp.length+"</span>":"")+(t.id==="cola"&&Object.keys(state.cola).length?'<span class="badge">'+Object.keys(state.cola).length+"</span>":"")+"</button>").join("");
+}
+$("#tabs").addEventListener("click",e=>{ const b=e.target.closest("[data-tab]"); if(b) go(b.dataset.tab); });
+function go(id){ state.tab=id; store("tab",id); try{ history.replaceState(null,"","#"+id); }catch(e){} renderTabs(); render(); window.scrollTo({top:0}); }
+function countdown(){
+  const d=new Date(), el=new Date(2026,9,4); const days=Math.ceil((el-d)/864e5);
+  $("#countdown").innerHTML= days>0 ? '<span>Faltam</span> <b>'+days+'</b> <span>'+(days===1?"dia":"dias")+' para o 1º turno</span>' : (days===0?"<b>Hoje é dia de votar</b>":"<span>Dados do 1º turno de 2026</span>");
+}
+
+function render(){
+  const m=$("#main"); const g=CG[state.tab];
+  if(g) m.innerHTML = (g.id.startsWith("dep") ? viewDep(g) : viewMaj(g));
+  else if(state.tab==="planos") m.innerHTML=viewPlanos();
+  else if(state.tab==="comp") m.innerHTML=viewComp();
+  else if(state.tab==="cola") m.innerHTML=viewCola();
+  else m.innerHTML=viewSobre();
+  if(g && g.id.startsWith("dep")) { bindDep(g); loadDepPhotos(); }
+  if(state.tab==="planos") bindPlanos();
+  if(state.tab==="comp") bindComp();
+  hydrate(m);
+}
+
+/* ============ cargos majoritários ============ */
+function pollIndex(g){ const P=POLLS[g.id]; const m={}; if(P) P.rows.forEach(r=>m[r[0]]=r[1]); return m; }
+function sortMaj(list,g){ const pi=pollIndex(g); return list.slice().sort((a,b)=>(b.urnaSim-a.urnaSim)||((pi[b.urna]??-1)-(pi[a.urna]??-1))||a.urna.localeCompare(b.urna)); }
+function card(c,g){
+  const v=vicesOf(c), x=exp(c), pl=PL[c.sq], inCmp=state.cmp.includes(c.sq);
+  return '<article class="card'+(c.urnaSim?"":" out")+'">'+
+    '<div class="card-top">'+photo(c)+'<div style="min-width:0;display:flex;flex-direction:column;gap:4px">'+urna(c.nr)+
+    '<h3><button class="linkish" data-open="'+c.sq+'">'+esc(title(c.urna))+'</button></h3><div class="party">'+party(c)+'</div>'+pill(c)+'</div></div>'+
+    '<dl class="kv">'+
+      (v.length?'<dt>'+(g.id==="sen"?"Suplentes":"Vice")+'</dt><dd>'+v.map(x=>esc(title(x.urna))+' <span class="muted">('+esc(x.sg)+')</span>').join(", ")+'</dd>':'')+
+      '<dt>Idade</dt><dd>'+(c.id!=null?c.id+" anos":"—")+'</dd>'+
+      '<dt>Ocupação</dt><dd>'+esc(title(c.ocu))+'</dd>'+
+      '<dt>Patrimônio</dt><dd class="num">'+(c.bens!=null?brl(c.bens):'<span class="muted">nada declarado</span>')+'</dd>'+
+      '<dt>Trajetória</dt><dd>'+(x.n?x.n+" candidatura"+(x.n>1?"s":"")+" desde 2004 · "+x.e+" eleito"+(x.e===1?"":"s"):"primeira candidatura na base")+'</dd>'+
+      (LEG[c.sq]?'<dt>Legislativo</dt><dd>'+(t=>t.pp+" proposições como autor · "+(t.lp-t.ls)+" lei"+(t.lp-t.ls===1?"":"s")+" de conteúdo"+(t.ls?" + "+t.ls+" simbólica"+(t.ls===1?"":"s"):""))(legTot(c.sq))+'</dd>':'')+
+      (c.mand?'<dt>Mandato</dt><dd><span class="chip acc">'+esc(title(c.mand))+'</span></dd>':'')+
+      (g.plano?'<dt>Plano</dt><dd>'+(pl?pl.pg+" págs · "+nf(pl.w)+" palavras":'<span class="muted">não registrado</span>')+'</dd>':'')+
+    '</dl><div class="card-actions">'+
+      '<button class="btn" data-open="'+c.sq+'">Ver ficha</button>'+
+      '<button class="btn" data-cmp="'+c.sq+'" aria-pressed="'+inCmp+'">'+ICON.cmp+(inCmp?"Comparando":"Comparar")+'</button>'+
+      (pl?'<button class="btn" data-pdf="'+c.sq+'" data-tip="Baixar o plano de governo registrado no TSE (PDF)">'+ICON.dl+'Plano</button>':'')+
+    '</div></article>';
+}
+function pollPanel(g){
+  const P=POLLS[g.id]; if(!P) return "";
+  const pi={}; cands(g).forEach(c=>pi[c.urna]=c);
+  const items=P.rows.map(r=>({l:title(r[0]),v:r[1],c:"var(--s1)",strong:r[1]>=10})).concat(P.extra.map(r=>({l:r[0],v:r[1],c:"var(--muted)",muted:true})));
+  const t2=!P.t2?"":'<h3 style="margin-top:16px">Simulações de 2º turno</h3><div class="chart">'+P.t2.map(r=>{
+    const a=r[2], b=r[3], rest=100-a-b;
+    return '<div style="margin:8px 0" data-tip="'+esc(r[0]+" "+a+"% × "+r[1]+" "+b+"% · brancos, nulos e indecisos "+rest+"%")+'"><div class="small" style="display:flex;justify-content:space-between;gap:8px"><span><b>'+esc(r[0])+'</b> '+a+'%</span><span>'+b+'% <b>'+esc(r[1])+'</b></span></div>'+
+      '<div class="bars"><span style="width:'+a+'%;background:var(--s1)"></span><span style="width:'+rest+'%;background:var(--surface2)"></span><span style="width:'+b+'%;background:var(--s2)"></span></div></div>';
+  }).join("")+'</div>';
+  return '<div class="panel"><div class="eyebrow">Pesquisa mais recente encontrada</div><h3>'+esc(P.inst)+' · intenção de voto estimulada, 1º turno</h3>'+
+    hbar(items,{fmt:v=>v+"%",max:Math.max(60,...items.map(i=>i.v)),labelW:200,aria:"Pesquisa de intenção de voto"})+t2+
+    '<p class="note">Campo '+esc(P.campo)+' · '+esc(P.n)+' · margem de erro '+esc(P.me)+' · registro TSE '+esc(P.reg)+'. '+(g.id==="sen"?"Resultados consolidam 1º e 2º voto. ":"")+'Pesquisa é retrato do momento, não previsão. <a href="'+P.url+'" target="_blank" rel="noopener">Ver a fonte</a>.</p></div>';
+}
+function viewMaj(g){
+  const all=sortMaj(cands(g),g), on=all.filter(c=>c.urnaSim), off=all.filter(c=>!c.urnaSim && !on.some(o=>o.urna===c.urna));
+  const wealth=on.filter(c=>c.bens>0).sort((a,b)=>b.bens-a.bens);
+  const minB=Math.max(1e3,Math.min(...wealth.map(c=>c.bens)));
+  const ages=on.filter(c=>c.id!=null).sort((a,b)=>b.id-a.id);
+  return '<section class="view"><div class="head"><div><div class="eyebrow">'+on.length+' candidaturas na urna</div><h2>'+esc(g.nome)+'</h2><p>'+esc(g.desc)+'</p></div></div>'+
+    '<div class="grid2">'+pollPanel(g)+
+    '<div class="panel"><h3>Patrimônio declarado ao TSE</h3><p class="small muted" style="margin:0 0 8px">Escala logarítmica: cada marca vale 10× a anterior, para caber de R$ 20 mil a R$ 500 milhões.</p>'+
+      hbar(wealth.map(c=>({l:title(c.urna),v:c.bens,tip:title(c.urna)+": "+brl(c.bens,true)+" ("+(c.nb||0)+" bens)"})),{log:true,logMin:minB/2,fmt:v=>brl(v),labelW:200,valW:84,aria:"Patrimônio declarado"})+
+      '<p class="note">Valores informados pelo próprio candidato, geralmente pelo custo de aquisição (não é valor de mercado). '+(on.length-wealth.length)+' sem bens declarados.</p></div>'+
+    '</div>'+
+    '<div class="cards">'+on.map(c=>card(c,g)).join("")+'</div>'+
+    '<div class="grid2"><div class="panel"><h3>Idade no dia da eleição</h3>'+hbar(ages.map(c=>({l:title(c.urna),v:c.id})),{fmt:v=>v+" anos",max:90,labelW:200,aria:"Idade"})+'</div>'+
+    '<div class="panel"><h3>Trajetória eleitoral desde 2004</h3>'+trajectory(on)+'</div></div>'+
+    legChart(on)+
+    (g.plano?'<div class="panel"><h3>O que os planos mais mencionam</h3><p class="small muted" style="margin:0 0 8px">Menções por 10 mil palavras do plano registrado no TSE. Mede ênfase de texto, não qualidade da proposta. Passe o mouse para ver o número; clique numa célula para ler os trechos.</p>'+heatmap(on)+'</div>':'<div class="panel"><h3>Plano de governo</h3><p class="ink2" style="margin:0">A lei eleitoral (Lei 9.504/97, art. 11, §1º, IX) exige plano de governo só de candidatos a presidente, governador e prefeito. Para o Senado, use a trajetória, os mandatos anteriores e o patrimônio na ficha de cada candidato.</p></div>')+
+    (off.length?'<details class="panel"><summary><b>'+off.length+' fora da urna</b> <span class="muted small">— candidaturas indeferidas, substituídas ou não conhecidas</span></summary><div class="cards" style="margin-top:12px">'+off.map(c=>card(c,g)).join("")+'</div></details>':"")+
+  "</section>";
+}
+function legChart(list){
+  const L=list.filter(c=>LEG[c.sq]||EXEC[c.sq]); if(!L.length) return "";
+  const rows=L.map(c=>{ const t=legTot(c.sq); return {c,t}; }).sort((a,b)=>b.t.lp-a.t.lp||b.t.pp-a.t.pp);
+  const leg=rows.filter(r=>LEG[r.c.sq]);
+  return '<div class="panel"><h3>Atuação no Legislativo</h3><p class="small muted" style="margin:0 0 8px">Proposições de lei apresentadas como autor principal e quantas viraram lei, somando Câmara (desde 2003), Senado e Alesp. Abra a ficha para ver cada lei.</p><div class="grid2">'+
+    hbar(leg.map(r=>({l:title(r.c.urna),v:r.t.lp-r.t.ls,txt:(r.t.lp-r.t.ls)+" de conteúdo"+(r.t.ls?" + "+r.t.ls+" simb.":""),tip:title(r.c.urna)+": "+r.t.lp+" leis como autor principal ("+(r.t.lp-r.t.ls)+" de conteúdo, "+r.t.ls+" simbólicas: nomes, utilidade pública, datas, títulos); "+r.t.lc+" como coautor"})),{labelW:190,aria:"Leis de conteúdo como autor principal",valW:150})+
+    hbar(leg.map(r=>({l:title(r.c.urna),v:r.t.pp,c:"var(--s3)",tip:title(r.c.urna)+": "+r.t.pp+" proposições como autor principal ("+r.t.casas.join(", ")+")"})),{labelW:190,aria:"Proposições como autor",fmt:v=>nf(v)+" propostas"}).replace(/var(--s1)/g,"var(--s3)")+
+    '</div><div class="legend"><span><i style="background:var(--s1)"></i>Leis de conteúdo (autor principal), sem contar as simbólicas</span><span><i style="background:var(--s3)"></i>Proposições apresentadas (autor principal)</span></div>'+
+    (rows.some(r=>EXEC[r.c.sq])?'<p class="small ink2" style="margin:10px 0 0">'+rows.filter(r=>EXEC[r.c.sq]).map(r=>"<b>"+esc(title(r.c.urna))+"</b> no Executivo: "+EXEC[r.c.sq].map(b=>esc(b.label.toLowerCase())+" enviou "+nf(b.n)+" proposições, "+nf(b.cnt.lei||0)+" viraram lei").join("; ")).join(". ")+'. Detalhes na ficha.</p>':"")+
+    '<p class="note">Leis simbólicas = ementa que dá nome a via ou prédio, declara utilidade pública, cria data comemorativa, concede título ou declara “capital de”. A classificação é automática pela ementa. Quantidade também não mede relevância; leia as ementas na ficha.</p></div>';
+}
+function trajectory(list){
+  const Y0=2004, Y1=2024, W=Math.max(380,Math.min(640,innerWidth-64)), lw=Math.min(190,W*0.36), rowH=24, H=list.length*rowH+28;
+  const X=y=>lw+(y-Y0)/(Y1-Y0)*(W-lw-20);
+  let s='<svg width="'+W+'" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Candidaturas anteriores">';
+  for(let y=Y0;y<=Y1;y+=4){ s+='<line class="grid" x1="'+X(y)+'" x2="'+X(y)+'" y1="4" y2="'+(H-22)+'"/><text x="'+X(y)+'" y="'+(H-6)+'" text-anchor="middle" font-size="11">'+y+'</text>'; }
+  list.forEach((c,i)=>{ const y=10+i*rowH;
+    s+='<text x="'+(lw-8)+'" y="'+(y+4)+'" text-anchor="end">'+esc(title(c.urna))+'</text>';
+    (c.hist||[]).forEach(h=>{ const el=isElected(h); const tip=h.a+" · "+title(h.cg)+(h.ue&&h.ue!=="BRASIL"?" ("+title(h.ue)+")":"")+" · "+h.p+" · "+(h.res||h.sit||"—");
+      s+='<circle cx="'+X(h.a)+'" cy="'+y+'" r="6" fill="'+(el?"var(--good)":"var(--surface)")+'" stroke="'+(el?"var(--good)":"var(--muted)")+'" stroke-width="2" data-tip="'+esc(tip)+'"/>'; });
+  });
+  return '<div class="chart">'+s+'</svg></div><div class="legend"><span><i class="dot" style="background:var(--good)"></i>Eleito</span><span><i class="dot" style="border:2px solid var(--muted)"></i>Não eleito, suplente ou sem resultado</span></div>';
+}
+function heatmap(list){
+  const keys=TEMAS.map(t=>t[0]); const rows=list.filter(c=>PL[c.sq]);
+  const max=Math.max(...rows.flatMap(c=>keys.map(k=>PL[c.sq].t[k]||0)))*0.8;
+  let s='<div class="chart"><table class="heat"><thead><tr><th></th>'+keys.map(k=>"<th>"+esc(TSHORT[k])+"</th>").join("")+"</tr></thead><tbody>";
+  rows.forEach(c=>{ const p=PL[c.sq]; const top=keys.slice().sort((a,b)=>p.t[b]-p.t[a]).slice(0,3);
+    s+='<tr><th><button class="linkish" data-open="'+c.sq+'" data-theme-key="">'+esc(title(c.urna))+"</button></th>"+keys.map(k=>{ const v=p.t[k]||0, col=heatColor(v,max);
+      return '<td class="'+(top.includes(k)?"hi":"")+'" style="background:'+col[0]+';color:'+col[1]+'" data-open="'+c.sq+'" data-theme-open="'+k+'" data-tip="'+esc(title(c.urna)+" · "+TEMAS.find(t=>t[0]===k)[1]+": "+nf(v)+" menções/10 mil palavras")+'">'+Math.round(v)+"</td>"; }).join("")+"</tr>"; });
+  return s+'</tbody></table></div><div class="legend"><span>Menos</span>'+[1,2,3,4,5,6,7].map(i=>'<i style="width:22px;height:10px;background:var(--q'+i+')"></i>').join("")+'<span>Mais</span><span style="margin-left:12px">Contorno escuro = 3 temas mais citados pelo candidato</span></div>';
+}
+
+/* ============ deputados ============ */
+const DEP_PAGE=40;
+function depState(g){ if(!state.dep[g.id]) state.dep[g.id]={q:"",p:"",gen:"",esc:"",mand:false,el:false,leg:false,lei:false,urna:true,sort:"nome",dir:1,page:0}; return state.dep[g.id]; }
+function depFiltered(g){
+  const f=depState(g); const q=f.q.trim().toLowerCase();
+  let L=cands(g).filter(c=>(!f.urna||c.urnaSim)&&(!f.p||c.sg===f.p)&&(!f.gen||c.gen===f.gen)&&(!f.esc||c.esc===f.esc)&&(!f.mand||c.mand)&&(!f.el||exp(c).e>0)&&(!f.leg||LEG[c.sq])&&(!f.lei||(t=>t.lp-t.ls>0)(legTot(c.sq))));
+  if(q) L=L.filter(c=>(c.urna+" "+c.nome+" "+c.nr+" "+c.sg+" "+c.ocu).toLowerCase().includes(q));
+  const key={nome:c=>c.urna,bens:c=>c.bens||0,id:c=>c.id||0,exp:c=>exp(c).n*100+exp(c).e,leis:c=>{ const t=legTot(c.sq); return (t.lp-t.ls)*1e6+t.lp*1e3+t.pp; },nr:c=>+c.nr,sg:c=>c.sg}[f.sort];
+  L.sort((a,b)=>{ const x=key(a),y=key(b); return (typeof x==="string"?x.localeCompare(y):x-y)*f.dir; });
+  return L;
+}
+function viewDep(g){
+  const all=cands(g), on=all.filter(c=>c.urnaSim), f=depState(g);
+  const parties=[...new Set(all.map(c=>c.sg))].sort();
+  const byParty={}; on.forEach(c=>byParty[c.sg]=(byParty[c.sg]||0)+1);
+  const pItems=Object.entries(byParty).sort((a,b)=>b[1]-a[1]).map(([p,n])=>({l:p,v:n}));
+  const fem=on.filter(c=>c.gen==="FEMININO").length, inc=on.filter(c=>c.mand).length, prevEl=on.filter(c=>exp(c).e>0).length;
+  const escs={}; on.forEach(c=>escs[c.esc]=(escs[c.esc]||0)+1);
+  const escOrder=["LÊ E ESCREVE","ENSINO FUNDAMENTAL INCOMPLETO","ENSINO FUNDAMENTAL COMPLETO","ENSINO MÉDIO INCOMPLETO","ENSINO MÉDIO COMPLETO","SUPERIOR INCOMPLETO","SUPERIOR COMPLETO"];
+  const bens=on.map(c=>c.bens||0).sort((a,b)=>a-b); const med=bens[Math.floor(bens.length/2)]||0;
+  const opt=(v,l,cur)=>'<option value="'+esc(v)+'"'+(v===cur?" selected":"")+">"+esc(l)+"</option>";
+  return '<section class="view"><div class="head"><div><div class="eyebrow">'+nf(on.length)+' candidaturas na urna · '+nf(all.length)+' registradas</div><h2>'+esc(g.nome)+'</h2><p>'+esc(g.desc)+'</p></div></div>'+
+    '<div class="kpis"><div class="kpi"><b class="num">'+nf(on.length)+'</b><span>na urna</span></div><div class="kpi"><b class="num">'+Math.round(fem/on.length*100)+'%</b><span>mulheres</span></div><div class="kpi"><b class="num">'+nf(inc)+'</b><span>com mandato atual (inclui vereadores)</span></div><div class="kpi"><b class="num">'+nf(prevEl)+'</b><span>já eleitos antes para algum cargo</span></div><div class="kpi"><b class="num">'+nf(on.filter(c=>LEG[c.sq]).length)+'</b><span>já foram parlamentares (Câmara, Senado ou Alesp)</span></div><div class="kpi"><b class="num">'+brl(med)+'</b><span>patrimônio mediano</span></div></div>'+
+    '<div class="grid2"><div class="panel"><h3>Candidaturas por partido</h3><div style="max-height:360px;overflow-y:auto">'+hbar(pItems,{labelW:130,rowH:22,aria:"Candidaturas por partido"})+'</div></div>'+
+    '<div class="panel"><h3>Escolaridade declarada</h3>'+hbar(escOrder.filter(e=>escs[e]).map(e=>({l:title(e),v:escs[e],tip:title(e)+": "+escs[e]+" ("+Math.round(escs[e]/on.length*100)+"%)"})),{labelW:220,aria:"Escolaridade"})+'</div></div>'+
+    '<div class="panel"><div class="filters">'+
+      '<label class="field">Buscar<input type="search" id="dq" placeholder="Nome, número, partido ou profissão" value="'+esc(f.q)+'"></label>'+
+      '<label class="field">Partido<select id="dp">'+opt("","Todos",f.p)+parties.map(p=>opt(p,p,f.p)).join("")+'</select></label>'+
+      '<label class="field">Gênero<select id="dg">'+opt("","Todos",f.gen)+opt("FEMININO","Feminino",f.gen)+opt("MASCULINO","Masculino",f.gen)+'</select></label>'+
+      '<label class="field">Escolaridade<select id="de">'+opt("","Todas",f.esc)+escOrder.map(e=>opt(e,title(e),f.esc)).join("")+'</select></label>'+
+      '<label class="check"><input type="checkbox" id="dm"'+(f.mand?" checked":"")+'> Tem mandato atual</label>'+
+      '<label class="check"><input type="checkbox" id="dl"'+(f.el?" checked":"")+'> Já foi eleito</label>'+
+      '<label class="check"><input type="checkbox" id="dlg"'+(f.leg?" checked":"")+'> Já foi parlamentar (Câmara, Senado ou Alesp)</label>'+
+      '<label class="check"><input type="checkbox" id="dll"'+(f.lei?" checked":"")+'> Tem lei de conteúdo aprovada como autor</label>'+
+      '<label class="check"><input type="checkbox" id="du"'+(f.urna?" checked":"")+'> Só quem está na urna</label>'+
+    '</div></div><div id="dep-table"></div></section>';
+}
+function depTable(g){
+  const f=depState(g), L=depFiltered(g), pages=Math.max(1,Math.ceil(L.length/DEP_PAGE)); f.page=Math.min(f.page,pages-1);
+  const rows=L.slice(f.page*DEP_PAGE,(f.page+1)*DEP_PAGE);
+  const th=(k,l,cls)=>'<th class="'+(cls||"")+'"><button data-sort="'+k+'">'+l+(f.sort===k?(f.dir>0?" ▲":" ▼"):"")+"</button></th>";
+  return '<div class="pager"><span>'+nf(L.length)+' resultado'+(L.length===1?"":"s")+'</span></div><div class="tbl-wrap"><table class="tbl"><thead><tr>'+th("nome","Candidato")+th("nr","Número")+th("sg","Partido")+th("id","Idade","r")+"<th>Ocupação</th>"+th("bens","Patrimônio","r")+th("exp","Trajetória")+th("leis","Leis de conteúdo (autor)","r")+"<th>Situação</th><th></th></tr></thead><tbody>"+
+    (rows.length?rows.map(c=>{ const x=exp(c), inC=state.cmp.includes(c.sq);
+      return '<tr><td><div class="who">'+photo(c)+'<div><button class="linkish" data-open="'+c.sq+'">'+esc(title(c.urna))+'</button>'+(c.mand?'<div><span class="chip acc">'+esc(title(c.mand))+"</span></div>":"")+'</div></div></td><td>'+urna(c.nr,"sm")+'</td><td>'+esc(c.sg)+'</td><td class="r num">'+(c.id??"—")+'</td><td class="small">'+esc(title(c.ocu))+'</td><td class="r num">'+(c.bens!=null?brl(c.bens):'<span class="muted">—</span>')+'</td><td class="small">'+(x.n?x.n+" · "+x.e+" eleito"+(x.e===1?"":"s"):'<span class="muted">estreante</span>')+"</td>"+(()=>{ const t=legTot(c.sq); return LEG[c.sq]?'<td class="r num" data-tip="'+esc(t.pp+" proposições como autor principal; "+t.lp+" viraram lei ("+(t.lp-t.ls)+" de conteúdo, "+t.ls+" simbólicas); "+t.lc+" leis como coautor ("+t.casas.join(", ")+")")+'">'+(t.lp-t.ls)+(t.ls?' <span class="muted small">+'+t.ls+" simb.</span>":"")+"</td>":'<td class="r muted">—</td>'; })()+"<td>"+pill(c)+'</td><td><button class="btn" data-cmp="'+c.sq+'" aria-pressed="'+inC+'" aria-label="Comparar">'+ICON.cmp+"</button></td></tr>"; }).join(""):'<tr><td colspan="10"><div class="empty">Nenhum candidato com esses filtros.</div></td></tr>')+
+    '</tbody></table></div><div class="pager"><button class="btn" data-page="-1"'+(f.page===0?" disabled":"")+'>Anterior</button><span class="num">Página '+(f.page+1)+" de "+pages+'</span><button class="btn" data-page="1"'+(f.page>=pages-1?" disabled":"")+">Próxima</button></div>";
+}
+function bindDep(g){
+  const f=depState(g); const box=$("#dep-table"); const redraw=()=>{ box.innerHTML=depTable(g); hydrate(box); };
+  redraw();
+  const on=(id,ev,fn)=>{ const el=$("#"+id); if(el) el.addEventListener(ev,fn); };
+  on("dq","input",e=>{ f.q=e.target.value; f.page=0; redraw(); });
+  on("dp","change",e=>{ f.p=e.target.value; f.page=0; redraw(); });
+  on("dg","change",e=>{ f.gen=e.target.value; f.page=0; redraw(); });
+  on("de","change",e=>{ f.esc=e.target.value; f.page=0; redraw(); });
+  on("dm","change",e=>{ f.mand=e.target.checked; f.page=0; redraw(); });
+  on("dl","change",e=>{ f.el=e.target.checked; f.page=0; redraw(); });
+  on("dlg","change",e=>{ f.leg=e.target.checked; f.page=0; redraw(); });
+  on("dll","change",e=>{ f.lei=e.target.checked; f.page=0; redraw(); });
+  on("du","change",e=>{ f.urna=e.target.checked; f.page=0; redraw(); });
+  box.addEventListener("click",e=>{ const s=e.target.closest("[data-sort]"); if(s){ const k=s.dataset.sort; if(f.sort===k) f.dir*=-1; else { f.sort=k; f.dir=(k==="nome"||k==="sg"||k==="nr")?1:-1; } redraw(); }
+    const p=e.target.closest("[data-page]"); if(p){ f.page+=+p.dataset.page; redraw(); box.scrollIntoView({block:"start"}); } });
+}
+
+/* ============ ficha do candidato ============ */
+function openCand(sq, themeKey){
+  const c=BY[sq]; if(!c) return; const g=CARGOS.find(x=>x.cargo===c.cargo)||{}; const pl=PL[sq]; const v=vicesOf(c); const inC=state.cmp.includes(sq);
+  const cats=Object.entries(c.bc||{}).sort((a,b)=>b[1]-a[1]); const CATC={"Imóveis":"var(--s1)","Aplicações e dinheiro":"var(--s3)","Participações societárias":"var(--s2)","Veículos":"var(--s4)","Outros":"var(--muted)"};
+  const evo=(c.hist||[]).filter(h=>h.b!=null).map(h=>[+h.a,h.b]); if(c.bens!=null) evo.push([2026,c.bens]);
+  const byYear={}; evo.forEach(p=>byYear[p[0]]=Math.max(byYear[p[0]]||0,p[1])); const evoPts=Object.entries(byYear).map(([a,b])=>[+a,b]);
+  let h='<div class="scrim" data-close></div><aside class="drawer" role="dialog" aria-modal="true" aria-label="Ficha de '+esc(title(c.urna))+'"><div class="drawer-in">'+
+    '<div><button class="btn close" data-close>Fechar</button></div>'+
+    '<div class="dh">'+photo(c)+'<div style="display:flex;flex-direction:column;gap:6px;min-width:0"><div class="eyebrow">'+esc(title(c.cargo))+(c.uf!=="BR"?" · "+c.uf:"")+'</div>'+urna(c.nr,"lg")+'<h2>'+esc(title(c.urna))+'</h2><div class="small ink2">'+esc(title(c.nome))+'</div><div class="party">'+party(c)+'</div><div style="display:flex;gap:8px;flex-wrap:wrap">'+pill(c)+(c.mand?'<span class="chip acc">Mandato atual: '+esc(title(c.mand))+"</span>":"")+'</div></div></div>'+
+    '<div class="card-actions"><button class="btn" data-cmp="'+sq+'" aria-pressed="'+inC+'">'+ICON.cmp+(inC?"Comparando":"Adicionar à comparação")+'</button>'+(pl?'<button class="btn pri" data-pdf="'+sq+'">'+ICON.dl+'Baixar plano de governo (PDF, '+nf(pl.mb)+' MB)</button>':'')+colaBtn(c)+'</div>'+
+    (c.comp?'<div class="panel"><h3>Coligação</h3><p class="small ink2" style="margin:0">'+esc(c.comp)+'</p></div>':'')+
+    '<div class="panel"><h3>Perfil</h3><dl class="kv" style="margin-top:8px">'+
+      (v.length?'<dt>'+(g.id==="sen"?"Suplentes":"Vice")+'</dt><dd>'+v.map(x=>'<button class="linkish" data-open="'+x.sq+'">'+esc(title(x.urna))+'</button> <span class="muted">('+esc(x.sg)+", "+esc(title(x.ocu))+")</span>").join("<br>")+'</dd>':'')+
+      '<dt>Nascimento</dt><dd>'+esc(c.nasc||"—")+(c.id!=null?" ("+c.id+" anos)":"")+(c.mun?" · "+esc(title(c.mun))+(c.ufn?"/"+esc(c.ufn):""):"")+'</dd>'+
+      '<dt>Ocupação</dt><dd>'+esc(title(c.ocu))+'</dd><dt>Escolaridade</dt><dd>'+esc(title(c.esc))+'</dd>'+
+      '<dt>Gênero</dt><dd>'+esc(title(c.gen))+'</dd><dt>Cor/raça</dt><dd>'+esc(title(c.cor))+'</dd><dt>Estado civil</dt><dd>'+esc(title(c.civ))+'</dd>'+
+      '<dt>Situação</dt><dd>'+esc(status(c).t)+' <span class="muted">· '+esc(status(c).d)+'</span></dd>'+
+      (c.tetoGasto?'<dt>Teto de gastos</dt><dd class="num">'+brl(c.tetoGasto,true)+' <span class="muted">(limite legal para o cargo)</span></dd>':'')+
+    '</dl></div>'+
+    '<div class="panel"><h3>Patrimônio declarado em 2026</h3><div style="font-size:1.6rem;font-weight:750;font-variation-settings:\'wdth\' 80" class="num">'+(c.bens!=null?brl(c.bens,true):"Nenhum bem declarado")+'</div>'+
+      (cats.length?'<div class="bars" style="margin-top:10px;height:16px">'+cats.map(([k,val])=>'<span style="width:'+(val/c.bens*100)+'%;background:'+CATC[k]+'" data-tip="'+esc(k+": "+brl(val,true)+" ("+Math.round(val/c.bens*100)+"%)")+'"></span>').join("")+'</div><div class="legend">'+cats.map(([k,val])=>'<span><i class="dot" style="background:'+CATC[k]+'"></i>'+esc(k)+" "+brl(val)+"</span>").join("")+'</div>':'')+
+      (c.bl&&c.bl.length?'<details style="margin-top:10px"><summary class="small"><b>Ver os '+c.bl.length+' itens declarados</b></summary><div class="tbl-wrap" style="margin-top:8px;max-height:340px;overflow:auto"><table class="tbl"><thead><tr><th>Tipo</th><th>Descrição</th><th class="r">Valor</th></tr></thead><tbody>'+c.bl.map(b=>'<tr><td class="small">'+esc(b[0])+'</td><td class="small">'+esc(b[1])+'</td><td class="r num small">'+brl(b[2],true)+"</td></tr>").join("")+"</tbody></table></div></details>":"")+
+      '<h3 style="margin-top:16px">Evolução nas eleições anteriores</h3>'+lineChart(evoPts.length?[{name:title(c.urna),pts:evoPts,c:"var(--s1)"}]:[])+'<p class="note">Valores nominais, sem correção pela inflação, como declarados em cada candidatura.</p></div>'+
+    '<div class="panel"><h3>Trajetória eleitoral</h3>'+((c.hist||[]).length?'<div class="tbl-wrap" style="margin-top:8px"><table class="tbl"><thead><tr><th>Ano</th><th>Cargo</th><th>Local</th><th>Partido</th><th>Resultado</th><th class="r">Bens declarados</th></tr></thead><tbody>'+
+      c.hist.map(x=>'<tr><td class="num">'+x.a+'</td><td>'+esc(title(x.cg))+'</td><td class="small">'+esc(title(x.ue))+'</td><td>'+esc(x.p)+'</td><td>'+(isElected(x)?'<span class="pill ok">'+ICON.ok+esc(x.res)+"</span>":esc(x.res||x.sit||"—"))+'</td><td class="r num small">'+(x.b!=null?brl(x.b):"—")+"</td></tr>").join("")+
+      "</tbody></table></div>":'<p class="ink2" style="margin:6px 0 0">Nenhuma candidatura anterior encontrada na base do TSE (que cobre eleições desde 2004).</p>')+'</div>'+
+    legPanel(c)+
+    (pl?planSection(c,pl,themeKey):(g.plano?'<div class="panel"><h3>Plano de governo</h3><p class="muted" style="margin:0">Não há plano registrado na base do TSE para esta candidatura.</p></div>':""))+
+  "</div></aside>";
+  closeDrawer(); const wrap=document.createElement("div"); wrap.id="drawer"; wrap.dataset.run=RUN; wrap.innerHTML=h; document.body.appendChild(wrap); document.body.style.overflow="hidden";
+  hydrate(wrap); const btn=wrap.querySelector(".close"); if(btn) btn.focus();
+  if(themeKey){ const el=wrap.querySelector("#plan-sec"); if(el) setTimeout(()=>el.scrollIntoView({block:"start"}),30); }
+}
+function planSection(c,pl,themeKey){
+  const keys=TEMAS.map(t=>t[0]); const k0=themeKey||keys.slice().sort((a,b)=>pl.t[b]-pl.t[a])[0];
+  return '<div class="panel" id="plan-sec"><h3>Plano de governo</h3><p class="small ink2" style="margin:2px 0 10px">'+pl.pg+' páginas · '+nf(pl.w)+' palavras · '+nf(pl.conc)+' marcadores de meta por mil palavras <span class="muted" data-tip="Contagem de valores em R$, percentuais, quantidades (mil/milhões), prazos (até 20XX) e a palavra meta. Indica quanto o texto usa números concretos; não avalia se as metas são viáveis.">(o que é?)</span></p>'+
+    radar([{name:title(c.urna),v:pl.t}],keys,{size:380})+
+    '<h3 style="margin-top:12px">Trechos do plano por tema</h3><p class="small muted" style="margin:2px 0 8px">Frases copiadas do PDF, selecionadas automaticamente por conter o tema e um verbo de proposta. Confira o contexto no documento.</p>'+
+    '<div class="seg" id="qseg" data-sq="'+c.sq+'">'+keys.map(k=>'<button data-q="'+k+'" aria-pressed="'+(k===k0)+'">'+esc(TSHORT[k])+'</button>').join("")+'</div><ul class="qlist" id="qlist" style="margin-top:10px">'+quotes(pl,k0)+'</ul></div>';
+}
+function quotes(pl,k){ const q=(pl.q&&pl.q[k])||[]; return q.length?q.map(s=>"<li>“"+esc(s)+"”</li>").join(""):'<li class="muted">O plano não traz frases de proposta sobre este tema na seleção automática.</li>'; }
+function closeDrawer(){ document.querySelectorAll("#drawer").forEach(d=>d.remove()); document.body.style.overflow=""; }
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeDrawer(); });
+
+/* ============ ações globais ============ */
+document.addEventListener("click",e=>{
+  const t=e.target;
+  if(t.closest("[data-close]")){ closeDrawer(); return; }
+  const q=t.closest("[data-q]"); if(q){ const seg=q.parentElement; seg.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b===q)); const pl=PL[seg.dataset.sq]; const list=seg.parentElement.querySelector("#qlist"); if(list) list.innerHTML=quotes(pl,q.dataset.q); return; }
+  const o=t.closest("[data-open]"); if(o && !t.closest("[data-cmp],[data-pdf]")){ openCand(o.dataset.open, o.dataset.themeOpen); return; }
+  const cm=t.closest("[data-cmp]"); if(cm){ toggleCmp(cm.dataset.cmp); return; }
+  const pd=t.closest("[data-pdf]"); if(pd){ downloadPlan(pd.dataset.pdf, pd); return; }
+  const co=t.closest("[data-cola]"); if(co){ setCola(co.dataset.cola, co.dataset.slot); return; }
+});
+function toggleCmp(sq){
+  const i=state.cmp.indexOf(sq);
+  if(i>=0) state.cmp.splice(i,1);
+  else { const c=BY[sq]; const same=state.cmp.filter(x=>BY[x].cargo===c.cargo);
+    if(state.cmp.length && BY[state.cmp[0]].cargo!==c.cargo){ state.cmp=[]; toast("Comparação reiniciada: agora com candidatos a "+title(c.cargo)); }
+    else if(same.length>=4){ toast("Compare até 4 candidatos por vez"); return; }
+    state.cmp.push(sq); }
+  store("cmp",state.cmp); renderTabs();
+  document.querySelectorAll('[data-cmp="'+sq+'"]').forEach(b=>{ const on=state.cmp.includes(sq); b.setAttribute("aria-pressed",on); if(!b.hasAttribute("aria-label")) b.innerHTML=ICON.cmp+(on?(b.closest(".drawer")?"Comparando":"Comparando"):(b.closest(".drawer")?"Adicionar à comparação":"Comparar")); });
+  if(state.tab==="comp") render();
+}
+let dlNS; async function downloadPlan(sq, btn){
+  const c=BY[sq], pl=PL[sq]; if(!pl) return;
+  const nice=("Plano de governo - "+title(c.urna)+" ("+c.sg+") - "+title(c.cargo)+" 2026").replace(/[\\\/:*?"<>|]/g,"");
+  btn.disabled=true;
+  try{
+    for(let i=0;i<pl.f.length;i++){
+      const blob=await planBlob(pl.f[i]); if(!blob) throw new Error("vazio");
+      const fname=nice+(pl.f.length>1?" - parte "+(i+1):"")+".pdf";
+      if(MODE!=="artifact"){ const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=fname; document.body.appendChild(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},4000); }
+      else { if(dlNS===undefined) dlNS = (window.claude&&window.claude.use) ? await window.claude.use("downloads") : null;
+        if(!dlNS){ toast("Download indisponível nesta visualização. Use o pacote oficial do TSE em Sobre os dados."); break; }
+        try{ await dlNS.save({filename:fname,data:blob}); }catch(err){ if(err&&err.code==="declined"){ break; } toast("Não foi possível salvar: "+(err&&err.message||"erro")); break; } }
+    }
+  }catch(e){ toast("Não consegui carregar o PDF. Tente o pacote oficial do TSE em Sobre os dados."); }
+  btn.disabled=false;
+}
+
+/* ============ planos lado a lado ============ */
+let planState={g:"pres", q:"escala 6x1", t:"seg"};
+function viewPlanos(){
+  const g=CG[planState.g]; const list=sortMaj(cands(g),g).filter(c=>PL[c.sq] && c.urnaSim);
+  return '<section class="view"><div class="head"><div><div class="eyebrow">Planos registrados no TSE</div><h2>Planos de governo lado a lado</h2><p>Busque qualquer assunto e veja o que cada plano diz, com as frases originais. Ou escolha um tema para ler as propostas de todos os candidatos em sequência.</p></div>'+
+    '<div class="seg">'+["pres","gov"].map(id=>'<button data-pg="'+id+'" aria-pressed="'+(planState.g===id)+'">'+esc(CG[id].nome)+"</button>").join("")+'</div></div>'+
+    '<div class="panel"><h3>Busca livre nos planos</h3><div class="filters" style="margin-top:8px"><label class="field">Termo<input type="search" id="pq" value="'+esc(planState.q)+'" placeholder="Ex.: escala 6x1, pedágio, SUS, privatização"></label><span class="small muted">Sugestões: '+["imposto de renda","privatização","câmeras corporais","escola cívico-militar","aborto","Bolsa Família","tarifa zero","pedágio"].map(s=>'<button class="linkish small" data-sug="'+esc(s)+'" style="font-weight:500;color:var(--accent)">'+esc(s)+"</button>").join(" · ")+'</span></div><div id="pres-res" style="margin-top:14px"></div></div>'+
+    '<div class="panel"><h3>Propostas por tema</h3><div class="seg" id="pt" style="margin:8px 0 14px">'+TEMAS.map(t=>'<button data-pt="'+t[0]+'" aria-pressed="'+(planState.t===t[0])+'">'+esc(TSHORT[t[0]])+"</button>").join("")+'</div><div id="pt-res" class="grid3">'+list.map(c=>'<div style="min-width:0"><h3 style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">'+urna(c.nr,"sm")+'<button class="linkish" data-open="'+c.sq+'">'+esc(title(c.urna))+'</button><span class="muted small">'+esc(c.sg)+'</span></h3><p class="tiny muted" style="margin:2px 0 6px">'+nf(PL[c.sq].t[planState.t])+' menções por 10 mil palavras</p><ul class="qlist">'+quotes(PL[c.sq],planState.t)+"</ul></div>").join("")+'</div></div>'+
+    '<div class="panel"><h3>Tamanho e concretude dos planos</h3><div class="grid2">'+hbar(list.map(c=>({l:title(c.urna),v:PL[c.sq].pg,tip:title(c.urna)+": "+PL[c.sq].pg+" páginas, "+nf(PL[c.sq].w)+" palavras"})).sort((a,b)=>b.v-a.v),{fmt:v=>v+" págs",labelW:190,aria:"Páginas"})+
+      hbar(list.map(c=>({l:title(c.urna),v:PL[c.sq].conc})).sort((a,b)=>b.v-a.v),{fmt:v=>nf(v),labelW:190,aria:"Concretude",c:"var(--s3)"}).replace(/var\(--s1\)/g,"var(--s3)")+'</div><p class="note">À direita: marcadores de meta por mil palavras (valores em R$, percentuais, quantidades, prazos "até 20XX" e a palavra "meta"). Mais marcadores indicam um texto mais quantificado, não metas melhores ou viáveis.</p></div>'+
+  "</section>";
+}
+function bindPlanos(){
+  const run=()=>{ const q=planState.q.trim(); const box=$("#pres-res"); if(!box) return;
+    if(q.length<3){ box.innerHTML='<p class="muted small">Digite ao menos 3 letras.</p>'; return; }
+    const g=CG[planState.g]; const list=sortMaj(cands(g),g).filter(c=>PT[c.sq] && c.urnaSim);
+    const norm=s=>s.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase(); const nq=norm(q);
+    const res=list.map(c=>{ const hits=PT[c.sq].filter(s=>norm(s).includes(nq)); return {c,hits}; });
+    const mx=Math.max(1,...res.map(r=>r.hits.length));
+    box.innerHTML='<div class="small ink2" style="margin-bottom:8px">Frases que citam “'+esc(q)+'” em cada plano</div>'+
+      hbar(res.map(r=>({l:title(r.c.urna),v:r.hits.length,muted:!r.hits.length})),{fmt:v=>v+(v===1?" frase":" frases"),max:mx,labelW:190,rowH:22,aria:"Ocorrências"})+
+      '<div class="grid3" style="margin-top:14px">'+res.filter(r=>r.hits.length).map(r=>'<div style="min-width:0"><h3>'+esc(title(r.c.urna))+' <span class="muted small">'+esc(r.c.sg)+'</span></h3><ul class="qlist" style="margin-top:6px">'+r.hits.slice(0,4).map(s=>"<li>"+hl(s,q)+"</li>").join("")+(r.hits.length>4?'<li class="muted small">+ '+(r.hits.length-4)+' outras frases no plano</li>':"")+"</ul></div>").join("")+'</div>'+
+      (res.every(r=>!r.hits.length)?'<div class="empty">Nenhum plano cita esse termo. Tente sinônimos.</div>':"");
+  };
+  run();
+  $("#pq").addEventListener("input",e=>{ planState.q=e.target.value; clearTimeout(bindPlanos.t); bindPlanos.t=setTimeout(run,180); });
+  $("#main").querySelectorAll("[data-sug]").forEach(b=>b.addEventListener("click",()=>{ planState.q=b.dataset.sug; $("#pq").value=planState.q; run(); }));
+  $("#main").querySelectorAll("[data-pg]").forEach(b=>b.addEventListener("click",()=>{ planState.g=b.dataset.pg; render(); }));
+  $("#main").querySelectorAll("[data-pt]").forEach(b=>b.addEventListener("click",()=>{ planState.t=b.dataset.pt; render(); }));
+}
+function hl(s,q){
+  const norm=x=>x.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase();
+  const i=norm(s).indexOf(norm(q)); if(i<0) return esc(s);
+  let a=Math.max(0,i-160), b=Math.min(s.length,i+q.length+200);
+  return (a>0?"… ":"")+esc(s.slice(a,i))+"<mark>"+esc(s.slice(i,i+q.length))+"</mark>"+esc(s.slice(i+q.length,b))+(b<s.length?" …":"");
+}
+
+/* ============ comparar ============ */
+let cmpTheme=null;
+function viewComp(){
+  const L=state.cmp.map(sq=>BY[sq]).filter(Boolean);
+  if(!L.length) return '<section class="view"><div class="head"><div><h2>Comparar candidatos</h2><p>Marque “Comparar” em até 4 candidatos do mesmo cargo, nas abas de cada cargo, ou busque abaixo.</p></div></div>'+cmpSearch()+'<div class="empty">Nenhum candidato selecionado ainda.</div></section>';
+  const g=CARGOS.find(x=>x.cargo===L[0].cargo); const n=L.length; const row=(label,f)=>'<div class="cmp-row" style="--n:'+n+'"><div>'+label+"</div>"+L.map(c=>"<div>"+f(c)+"</div>").join("")+"</div>";
+  const plans=L.filter(c=>PL[c.sq]);
+  const keys=TEMAS.map(t=>t[0]); if(!cmpTheme) cmpTheme="eco";
+  const evoSeries=L.map((c,j)=>{ const m={}; (c.hist||[]).forEach(h=>{ if(h.b!=null) m[h.a]=Math.max(m[h.a]||0,h.b); }); if(c.bens!=null) m[2026]=c.bens; return {name:title(c.urna),pts:Object.entries(m).map(([a,b])=>[+a,b]),c:SER[j]}; });
+  return '<section class="view"><div class="head"><div><div class="eyebrow">'+esc(g?g.nome:title(L[0].cargo))+'</div><h2>Comparar candidatos</h2><p>Até 4 candidatos do mesmo cargo. As cores identificam cada candidato em todos os gráficos desta página.</p></div><button class="btn" id="cmp-clear">Limpar comparação</button></div>'+cmpSearch()+
+    '<div class="panel cmp">'+
+      '<div class="cmp-row" style="--n:'+n+'"><div></div>'+L.map((c,j)=>'<div class="cmp-head">'+photo(c)+'<div><span class="swatch" style="background:'+SER[j]+'"></span><button class="linkish" data-open="'+c.sq+'">'+esc(title(c.urna))+'</button></div>'+urna(c.nr,"sm")+'<button class="btn" data-cmp="'+c.sq+'" aria-pressed="true" aria-label="Remover">Remover</button></div>').join("")+'</div>'+
+      row("Partido",party)+row("Situação",pill)+row("Idade",c=>c.id!=null?c.id+" anos":"—")+row("Ocupação",c=>esc(title(c.ocu)))+row("Escolaridade",c=>esc(title(c.esc)))+
+      row("Patrimônio 2026",c=>'<b class="num">'+(c.bens!=null?brl(c.bens):"—")+'</b>')+
+      row("Composição",c=>{ const cats=Object.entries(c.bc||{}).sort((a,b)=>b[1]-a[1]); return cats.length?cats.slice(0,3).map(([k,v])=>esc(k)+" "+Math.round(v/c.bens*100)+"%").join("<br>"):"—"; })+
+      row("Mandato atual",c=>c.mand?esc(title(c.mand)):'<span class="muted">nenhum</span>')+
+      row("Candidaturas desde 2004",c=>{ const x=exp(c); return x.n?x.n+" · "+x.e+" vitória"+(x.e===1?"":"s"):"estreante"; })+
+      row("Cargos já disputados",c=>[...new Set((c.hist||[]).map(h=>title(h.cg)))].join(", ")||"—")+
+      row("Partidos anteriores",c=>[...new Set((c.hist||[]).map(h=>h.p))].filter(p=>p!==c.sg).join(", ")||'<span class="muted">nenhum outro</span>')+
+      row("Proposições de lei como autor",c=>LEG[c.sq]?'<b class="num">'+nf(legTot(c.sq).pp)+"</b> <span class=\"muted small\">("+esc(legTot(c.sq).casas.join(", "))+")</span>":'<span class="muted">sem mandato parlamentar nas bases</span>')+
+      row("Viraram lei",c=>LEG[c.sq]?(t=>'<b class="num">'+nf(t.lp-t.ls)+"</b> de conteúdo como autor principal<br>"+nf(t.ls)+" simbólicas (nomes, datas, utilidade pública)<br>"+nf(t.lc)+" como coautor")(legTot(c.sq)):"—")+
+      (L.some(c=>EXEC[c.sq])?row("Agenda do Executivo",c=>EXEC[c.sq]?EXEC[c.sq].map(b=>esc(b.label)+": "+nf(b.n)+" proposições, "+nf(b.cnt.lei||0)+" viraram lei").join("<br>"):'<span class="muted">—</span>')+      (plans.length?row("Plano de governo",c=>PL[c.sq]?PL[c.sq].pg+" págs · "+nf(PL[c.sq].w)+" palavras<br>"+nf(PL[c.sq].conc)+" marcadores de meta/mil palavras<br><button class=\"btn\" style=\"margin-top:6px\" data-pdf=\""+c.sq+"\">"+ICON.dl+"PDF</button>":'<span class="muted">não registrado</span>'):""):"")+
+    '</div>'+
+    '<div class="grid2"><div class="panel"><h3>Patrimônio declarado ao longo das eleições</h3>'+lineChart(evoSeries.filter(s=>s.pts.length))+legend(L)+'<p class="note">Valores nominais declarados em cada candidatura, sem correção pela inflação.</p></div>'+
+    (plans.length?'<div class="panel"><h3>Ênfase temática dos planos</h3>'+radar(L.map((c,j)=>PL[c.sq]?{name:title(c.urna),v:PL[c.sq].t}:{name:title(c.urna),v:{}}),keys,{size:420})+legend(L)+'<p class="note">Menções por 10 mil palavras em cada plano. Linhas tracejadas diferenciam os candidatos além da cor.</p></div>':'<div class="panel"><h3>Trajetória</h3>'+trajectory(L)+'</div>')+'</div>'+
+    (plans.length?'<div class="panel"><h3>O que cada plano propõe</h3><div class="seg" style="margin:8px 0 14px">'+keys.map(k=>'<button data-ct="'+k+'" aria-pressed="'+(k===cmpTheme)+'">'+esc(TSHORT[k])+"</button>").join("")+'</div><div class="grid3">'+L.map((c,j)=>'<div style="min-width:0"><h3><span class="swatch" style="background:'+SER[j]+'"></span>'+esc(title(c.urna))+'</h3>'+(PL[c.sq]?'<p class="tiny muted" style="margin:2px 0 6px">'+nf(PL[c.sq].t[cmpTheme])+' menções por 10 mil palavras</p><ul class="qlist">'+quotes(PL[c.sq],cmpTheme)+"</ul>":'<p class="muted small">Sem plano registrado.</p>')+"</div>").join("")+'</div></div>':"")+
+    (plans.length?'<div class="panel"><h3>Trajetória eleitoral</h3>'+trajectory(L)+'</div>':"")+
+  "</section>";
+}
+function legend(L){ return '<div class="legend">'+L.map((c,j)=>'<span><i style="background:'+SER[j]+'"></i>'+esc(title(c.urna))+"</span>").join("")+"</div>"; }
+function cmpSearch(){
+  return '<div class="panel"><div class="filters"><label class="field">Adicionar candidato<input type="search" id="cs" list="csl" placeholder="Nome ou número (qualquer cargo)"></label><datalist id="csl"></datalist><span class="small muted">Compare até 4 do mesmo cargo.</span></div></div>';
+}
+function bindComp(){
+  const cl=$("#cmp-clear"); if(cl) cl.addEventListener("click",()=>{ state.cmp=[]; store("cmp",[]); renderTabs(); render(); });
+  $("#main").querySelectorAll("[data-ct]").forEach(b=>b.addEventListener("click",()=>{ cmpTheme=b.dataset.ct; render(); }));
+  const inp=$("#cs"), dl=$("#csl"); if(!inp) return;
+  const pool=C.filter(c=>["PRESIDENTE","GOVERNADOR","SENADOR","DEPUTADO FEDERAL","DEPUTADO ESTADUAL"].includes(c.cargo) && c.urnaSim);
+  const lab=c=>title(c.urna)+" · "+c.nr+" · "+c.sg+" · "+title(c.cargo);
+  inp.addEventListener("input",()=>{ const q=inp.value.toLowerCase().trim();
+    const exact=pool.find(c=>lab(c).toLowerCase()===q); if(exact){ inp.value=""; if(!state.cmp.includes(exact.sq)) toggleCmp(exact.sq); render(); return; }
+    if(q.length<2){ dl.innerHTML=""; return; }
+    dl.innerHTML=pool.filter(c=>(c.urna+" "+c.nome+" "+c.nr).toLowerCase().includes(q)).slice(0,30).map(c=>'<option value="'+esc(lab(c))+'">').join(""); });
+}
+
+/* ============ minha cola ============ */
+const SLOTS=[
+  {k:"depf",l:"Deputado federal",g:"depf"},{k:"depe",l:"Deputado estadual",g:"depe"},
+  {k:"sen1",l:"Senador · 1ª vaga",g:"sen"},{k:"sen2",l:"Senador · 2ª vaga",g:"sen"},
+  {k:"gov",l:"Governador",g:"gov"},{k:"pres",l:"Presidente",g:"pres"}];
+function colaBtn(c){
+  const g=CARGOS.find(x=>x.cargo===c.cargo); if(!g||!c.urnaSim) return "";
+  const slots=SLOTS.filter(s=>s.g===g.id);
+  return slots.map(s=>{ const on=state.cola[s.k]===c.sq; return '<button class="btn" data-cola="'+c.sq+'" data-slot="'+s.k+'" aria-pressed="'+on+'">'+(on?"Na cola: ":"Pôr na cola")+(slots.length>1?" ("+s.l.split("· ")[1]+")":"")+"</button>"; }).join("");
+}
+function setCola(sq,slot){
+  if(state.cola[slot]===sq) delete state.cola[slot];
+  else { if(slot.startsWith("sen")){ const other=slot==="sen1"?"sen2":"sen1"; if(state.cola[other]===sq){ toast("Os dois votos para o Senado precisam ser em candidatos diferentes"); return; } } state.cola[slot]=sq; }
+  store("cola",state.cola); renderTabs(); const d=$("#drawer"); if(d) openCand(sq); if(state.tab==="cola") render(); toast(state.cola[slot]===sq?"Adicionado à sua cola":"Removido da cola");
+}
+function viewCola(){
+  const txt=SLOTS.map(s=>{ const c=BY[state.cola[s.k]]; return s.l.padEnd(22," ")+(c?c.nr+"  "+title(c.urna)+" ("+c.sg+")":"—"); }).join("\n");
+  return '<section class="view"><div class="head"><div><div class="eyebrow">Ordem das telas na urna</div><h2>Minha cola</h2><p>Monte a lista de números na ordem em que a urna pede. A lei permite levar anotações para a cabine, mas não o celular. A cola fica salva só neste navegador.</p></div>'+
+    '<div class="card-actions"><button class="btn" id="cola-copy">Copiar como texto</button><button class="btn pri" id="cola-dl">'+ICON.dl+'Baixar cola (.txt)</button></div></div>'+
+    '<div class="cola">'+SLOTS.map((s,i)=>{ const c=BY[state.cola[s.k]]; const g=CG[s.g];
+      return '<div class="cola-row"><div><div class="ord">Tela '+(i+1)+' · '+g.digits+' dígitos</div><b>'+esc(s.l)+'</b></div><div style="display:flex;gap:12px;align-items:center;min-width:0">'+(c?photo(c)+'<div style="min-width:0"><button class="linkish" data-open="'+c.sq+'">'+esc(title(c.urna))+'</button><div class="small muted">'+esc(c.sg)+"</div></div>":'<span class="muted">Ninguém escolhido. <button class="linkish" style="color:var(--accent);font-weight:500" data-tab-go="'+s.g+'">Escolher em '+esc(g.curto)+"</button></span>")+'</div><div>'+(c?urna(c.nr,"lg"):urna("".padEnd(g.digits,"·"),"lg"))+"</div></div>"; }).join("")+'</div>'+
+    '<p class="small muted">Dica: nos cargos de deputado, digitar só os 2 primeiros números é voto na legenda (partido/federação).</p><pre id="cola-txt" hidden>'+esc(txt)+"</pre></section>";
+}
+document.addEventListener("click",e=>{ const b=e.target.closest("[data-tab-go]"); if(b) go(b.dataset.tabGo);
+  if(e.target.closest("#cola-copy")){ const t=$("#cola-txt").textContent; (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>toast("Cola copiada")).catch(()=>{ const p=$("#cola-txt"); p.hidden=false; const r=document.createRange(); r.selectNodeContents(p); const s=getSelection(); s.removeAllRanges(); s.addRange(r); toast("Texto selecionado: use Ctrl+C"); }); }
+  if(e.target.closest("#cola-dl")){ const t="MINHA COLA - ELEIÇÕES 2026 (1º turno, 04/10)\n\n"+$("#cola-txt").textContent+"\n"; const blob=new Blob([t],{type:"text/plain"});
+    if(MODE!=="artifact"){ const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="cola-eleicoes-2026.txt"; a.click(); }
+    else (async()=>{ if(dlNS===undefined) dlNS=(window.claude&&window.claude.use)?await window.claude.use("downloads"):null; if(!dlNS){ toast("Download indisponível aqui: use Copiar como texto"); return; } try{ await dlNS.save({filename:"cola-eleicoes-2026.txt",data:t}); }catch(err){ if(!err||err.code!=="declined") toast("Não foi possível salvar"); } })(); }
+});
+
+/* ============ sobre ============ */
+function viewSobre(){
+  const gen=window.__GEN||{};
+  return '<section class="view"><div class="head"><div><h2>Sobre os dados</h2><p>Tudo aqui vem de fontes públicas. Nenhuma avaliação ou recomendação de voto foi acrescentada.</p></div></div><div class="panel prose">'+
+    '<h3>Fontes</h3><ul>'+
+    '<li><b>Candidaturas, perfil e situação:</b> Portal de Dados Abertos do TSE, arquivos <i>consulta_cand_2026</i> e <i>consulta_cand_complementar_2026</i>, gerados em '+esc(gen.tse||"30/09/2026")+'.</li>'+
+    '<li><b>Patrimônio:</b> <i>bem_candidato_2026</i> e, para a evolução, as bases de 2014 a 2024 ligadas pelo histórico de candidaturas do TSE.</li>'+
+    '<li><b>Trajetória:</b> <i>historico_candidatura_2026</i>, que o TSE monta pelo CPF e cobre eleições desde 2004.</li>'+
+    '<li><b>Planos de governo:</b> PDFs oficiais do pacote <i>proposta_governo_2026</i> (BR e SP), publicados em 29/09/2026. <a href="https://cdn.tse.jus.br/estatistica/sead/odsele/proposta_governo/proposta_governo_2026_BR.zip" target="_blank" rel="noopener">Pacote Presidência</a> · <a href="https://cdn.tse.jus.br/estatistica/sead/odsele/proposta_governo/proposta_governo_2026_SP.zip" target="_blank" rel="noopener">Pacote SP</a>.</li>'+
+    '<li><b>Fotos:</b> pacote oficial de fotos de candidatos do TSE.</li>'+
+    '<li><b>Atuação no Legislativo:</b> dados abertos da Câmara dos Deputados (proposições e autores de 2003 a 2026, cruzados pelo nome civil e data de nascimento), do Senado Federal (matérias e autorias) e da Assembleia Legislativa de SP (proposituras, autores e tramitação completa). “Virou lei” segue o registro de cada casa: “Transformado em Norma Jurídica” na Câmara e no Senado, “Publicada a Lei” na tramitação da Alesp.</li>'+
+    '<li><b>Agenda do Executivo:</b> proposições de autoria do Poder Executivo federal na Câmara (Lula: 2003–2010 e 2023–2026) e do Governador na Alesp (Tarcísio: 2023–2026).</li>'+
+    '<li><b>Pesquisas:</b> Datafolha (Presidência, registro BR-00304/2026) e Real Time Big Data (Governo e Senado SP, registro SP-06293/2026), conforme reportado por Gazeta do Povo e Brasil de Fato.</li></ul>'+
+    '<h3>Como ler os indicadores</h3><ul>'+
+    '<li><b>Menções por tema</b> contam palavras-chave de cada tema a cada 10 mil palavras do plano. Mostram onde o texto põe ênfase, não se a proposta é boa, viável ou financiada.</li>'+
+    '<li><b>Trechos</b> são frases copiadas literalmente do PDF e escolhidas por algoritmo (tema + verbo de proposta). Podem aparecer frases de diagnóstico ou de balanço de governo. Leia o contexto no PDF.</li>'+
+    '<li><b>Marcadores de meta</b> contam valores em R$, percentuais, quantidades, prazos e a palavra “meta” por mil palavras.</li>'+
+    '<li><b>Leis simbólicas</b> são as que dão nome a vias ou prédios, declaram utilidade pública, criam datas comemorativas, concedem títulos ou declaram “capital de”. Classificação automática pela ementa, mostrada à parte das leis de conteúdo.</li>'+
+    '<li><b>Patrimônio</b> é o declarado pelo candidato, em geral pelo valor de aquisição, e em valores nominais.</li>'+
+    '<li><b>Mandato atual</b> indica eleição vencida em 2022 ou 2024 (inclui vereadores). Quem assumiu como suplente ou licenciou-se não aparece corretamente.</li>'+
+    '<li><b>Situação</b> reflete a base do TSE na data de geração e pode mudar até a eleição.</li></ul>'+
+    '<h3>O que este painel não tem</h3><ul><li>Obras entregues e programas por gestor: não existe base oficial neutra e comparável por candidato. O painel mostra a agenda legislativa do Executivo e, separado e sinalizado, o balanço que o próprio candidato declara no plano.</li><li>Mandatos municipais (vereador, prefeito) e mandatos em outros estados (Zema em MG, Caiado em GO).</li><li>Coautoria na Alesp é aproximada: o primeiro autor listado é tratado como autor principal.</li><li>Votações nominais, presença e gastos de mandatos (Câmara, Senado e Alesp publicam em seus portais).</li><li>Processos judiciais além da situação do registro. As certidões criminais estão no DivulgaCandContas do TSE.</li><li>Candidatos de outros estados para Governo, Senado e deputados.</li></ul>'+
+  "</div></section>";
+}
+
+/* ============ início ============ */
+/* página salva pelo navegador (Ctrl+S) volta com o DOM já montado: limpa o que é efêmero */
+const RUN=String(Math.random()).slice(2);
+function purgeSaved(){ document.querySelectorAll("#drawer,.toast").forEach(n=>{ if(n.dataset.run!==RUN) n.remove(); }); }
+purgeSaved(); document.addEventListener("DOMContentLoaded",purgeSaved); document.body.style.overflow=""; TIP.classList.remove("on");
+const cmpDeep=(location.hash||"").match(/^#comp((?:-[0-9]+)+)$/);   /* link direto: #comp-<sq>-<sq> */
+if(cmpDeep){ state.cmp=cmpDeep[1].split("-").filter(sq=>BY[sq]).slice(0,4); state.tab="comp"; }
+const deep=(location.hash||"").match(/^#c(\d+)$/);   /* link direto para a ficha: #c<sequencial do TSE> */
+if(deep && BY[deep[1]]){ const g=CARGOS.find(x=>x.cargo===BY[deep[1]].cargo); if(g) state.tab=g.id; }
+renderTabs(); countdown(); render();
+if(deep && BY[deep[1]]) openCand(deep[1]);
+window.addEventListener("hashchange",()=>{ const h=location.hash.replace("#",""); if(h!==state.tab && TABS.find(t=>t.id===h)) go(h); });
+</script>
