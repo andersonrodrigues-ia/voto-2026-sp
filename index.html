@@ -811,6 +811,13 @@ function viewSobre(){
     '<li><b>Atuação no Legislativo:</b> dados abertos da Câmara dos Deputados (proposições e autores de 2003 a 2026, cruzados pelo nome civil e data de nascimento), do Senado Federal (matérias e autorias) e da Assembleia Legislativa de SP (proposituras, autores e tramitação completa). “Virou lei” segue o registro de cada casa: “Transformado em Norma Jurídica” na Câmara e no Senado, “Publicada a Lei” na tramitação da Alesp.</li>'+
     '<li><b>Agenda do Executivo:</b> proposições de autoria do Poder Executivo federal na Câmara (Lula: 2003–2010 e 2023–2026) e do Governador na Alesp (Tarcísio: 2023–2026).</li>'+
     '<li><b>Pesquisas:</b> Datafolha (Presidência, registro BR-00304/2026) e Real Time Big Data (Governo e Senado SP, registro SP-06293/2026), conforme reportado por Gazeta do Povo e Brasil de Fato.</li></ul>'+
+    '<h3>Links das fontes</h3><ul class="srcl">'+
+    [["Tribunal Superior Eleitoral (TSE)",[["Portal de Dados Abertos","https://dadosabertos.tse.jus.br/"],["Candidatos 2026 (bases, bens, fotos e planos)","https://dadosabertos.tse.jus.br/dataset/candidatos-2026"],["DivulgaCandContas (ficha, certidões e contas)","https://divulgacandcontas.tse.jus.br/divulga/"],["PesqEle (registro das pesquisas)","https://pesqele-divulgacao.tse.jus.br/"]]],
+     ["Câmara dos Deputados",[["Dados Abertos","https://dadosabertos.camara.leg.br/"],["Arquivos e API","https://dadosabertos.camara.leg.br/swagger/api.html"]]],
+     ["Senado Federal",[["Dados Abertos","https://www12.senado.leg.br/dados-abertos"],["Documentação da API legislativa","https://legis.senado.leg.br/dadosabertos/docs/"]]],
+     ["Assembleia Legislativa de SP (Alesp)",[["Dados Abertos","https://www.al.sp.gov.br/dados-abertos/"]]],
+     ["Pesquisas eleitorais",[["Datafolha Presidência, 22 e 23/09 (Gazeta do Povo)","https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/datafolha-presidente-setembro-2026-4/"],["Real Time Big Data SP, 24 a 28/09 (Brasil de Fato)","https://www.brasildefato.com.br/2026/09/29/real-time-tarcisio-lidera-para-governo-de-sp-disputa-para-o-senado-tem-empate-tecnico/"]]]
+    ].map(g=>'<li><b>'+g[0]+':</b> '+g[1].map(l=>'<a href="'+l[1]+'" target="_blank" rel="noopener">'+l[0]+'</a>').join(' · ')+'</li>').join("")+'</ul>'+
     '<h3>Como ler os indicadores</h3><ul>'+
     '<li><b>Menções por tema</b> contam palavras-chave de cada tema a cada 10 mil palavras do plano. Mostram onde o texto põe ênfase, não se a proposta é boa, viável ou financiada.</li>'+
     '<li><b>Trechos</b> são frases copiadas literalmente do PDF e escolhidas por algoritmo (tema + verbo de proposta). Podem aparecer frases de diagnóstico ou de balanço de governo. Leia o contexto no PDF.</li>'+
