@@ -6,7 +6,7 @@ Painel interativo para comparar os candidatos das eleições gerais de 2026 (1º
 
 ## O que tem
 
-- **Todos os candidatos**, com número de urna, vice ou suplentes, situação do registro, perfil, patrimônio declarado e trajetória eleitoral desde 2004.
+- **Todos os candidatos**, com número de urna, vice ou suplentes, situação do registro, perfil, patrimônio declarado e trajetória eleitoral desde 1982.
 - **Atuação no poder público**: proposições apresentadas e as que viraram lei na Câmara dos Deputados (desde 2003), no Senado e na Assembleia Legislativa de SP. As leis simbólicas (nomes de vias, utilidade pública, datas comemorativas, títulos) aparecem separadas das leis de conteúdo.
 - **Agenda do Executivo**: proposições enviadas ao Legislativo pelo governo federal (2003–2010 e 2023–2026) e pelo governo paulista (2023–2026), e quantas viraram lei.
 - **Planos de governo** de Presidente e Governador: busca livre no texto, ênfase por tema, trechos por tema e download do PDF oficial.
@@ -18,7 +18,7 @@ Painel interativo para comparar os candidatos das eleições gerais de 2026 (1º
 
 Todos os dados são públicos e oficiais:
 
-- [Portal de Dados Abertos do TSE](https://dadosabertos.tse.jus.br/): candidaturas, bens declarados (2014–2026), histórico de candidaturas, fotos e planos de governo.
+- [Portal de Dados Abertos do TSE](https://dadosabertos.tse.jus.br/): candidaturas, bens declarados (2014–2026), histórico de candidaturas, candidatos de 1994 a 2002, votação de 1982 a 1990 e de 2004 a 2016, fotos e planos de governo.
 - [Dados Abertos da Câmara dos Deputados](https://dadosabertos.camara.leg.br/): proposições e autores, 2003–2026.
 - [Dados Abertos do Senado Federal](https://legis.senado.leg.br/dadosabertos/): matérias e autorias.
 - [Dados Abertos da Alesp](https://www.al.sp.gov.br/dados-abertos/): proposituras, autores e tramitação.
